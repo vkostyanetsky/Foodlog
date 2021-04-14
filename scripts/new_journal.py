@@ -15,7 +15,7 @@ def get_archive_filename():
 script_dirpath = os.path.abspath(os.path.dirname(__file__))
 
 dirpath = os.path.split(script_dirpath)[0]
-options = common_logic.get_settings(script_dirpath)
+options = common_logic.get_options(dirpath)
 
 journal_filepath    = os.path.join(dirpath, options['journal_filename'])
 journal             = yaml_wrapper.get_data_from_file(journal_filepath)

@@ -94,7 +94,7 @@ def get_consumption(parameter):
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
 dirpath         = os.path.split(script_dirpath)[0]
 
-options = common_logic.get_settings(script_dirpath)
+options = common_logic.get_options(dirpath)
 catalog = get_catalog()
 journal = get_journal()
 weights = get_weights()

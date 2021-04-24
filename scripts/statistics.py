@@ -1,6 +1,7 @@
 import os
 import yaml
 import datetime
+import operator
 
 import modules.common_logic as common_logic
 import modules.yaml_wrapper as yaml_wrapper
@@ -76,20 +77,57 @@ def get_weights():
 
 def get_consumption(parameter):
 
-    details     = []
+    details     = {}
     value_total = 0
 
     for item in weights:
 
         value = round(weights[item] * catalog[item][parameter] / 100)
 
-        details.append((item, value))
+        details[item] = value
 
         value_total += value
 
-    details.sort(key = lambda i: i[1], reverse = True)    
-
     return [details, value_total]
+
+def print_table_row(item, calories_value, proteins_value, fats_value, carbohydrates_value):
+
+    item                    = item.ljust(item_offset)
+    calories_value          = str(calories_value).ljust(data_offset)
+    proteins_value          = str(proteins_value).ljust(data_offset)
+    fats_value              = str(fats_value).ljust(data_offset)
+    carbohydrates_value     = str(carbohydrates_value).ljust(data_offset)
+
+    print(item, calories_value, proteins_value, fats_value, carbohydrates_value)
+
+def print_nutrients():
+
+    sorted_calories = sorted(calories.items(), key = operator.itemgetter(1), reverse = True)
+
+    for item, value in sorted_calories:
+        print_table_row(item, value, proteins[item], fats[item], carbohydrates[item])
+
+    print()
+
+    print_table_row('ИТОГО', calories_total, proteins_total, fats_total, carbohydrates_total)    
+
+def print_nutrients_balance():
+
+    def percent(value):
+    
+        result = round(value * 100 / nutrients_total)
+        result = str(result) + '%'
+
+        return result
+
+    nutrients_total = proteins_total + fats_total + carbohydrates_total
+
+    proteins_percent        = percent(proteins_total)    
+    fats_percent            = percent(fats_total)
+    carbohydrates_percent   = percent(carbohydrates_total)
+
+    print_table_row('БАЛАНС БЖУ СЕГОДНЯ', '', proteins_percent, fats_percent, carbohydrates_percent)
+    print_table_row('ЦЕЛЕВОЙ БАЛАНС БЖУ', '', '30%', '20%', '50%')    
 
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
 dirpath         = os.path.split(script_dirpath)[0]
@@ -99,23 +137,26 @@ catalog = get_catalog()
 journal = get_journal()
 weights = get_weights()
 
-calories, calories_total = get_consumption('К')
-  
+calories, calories_total            = get_consumption('К')
+proteins, proteins_total            = get_consumption('Б')
+fats, fats_total                    = get_consumption('Ж')
+carbohydrates, carbohydrates_total  = get_consumption('У')
+
 item_offset = get_max_item_length()
+data_offset = 10
 
 if len(calories) > 0:
 
-    print('ПРОДУКТ'.ljust(item_offset), 'К')
+    print_table_row('ПРОДУКТ', 'К', 'Б', 'Ж', 'У')
 
     print()
 
-    for item, value in calories:
-        print(item.ljust(item_offset), value)
+    print_nutrients()
 
     print()
 
-    print('ИТОГО'.ljust(item_offset), calories_total)
-    
+    print_nutrients_balance()
+
 else:
 
     print('Журнал за день пуст!')

@@ -63,7 +63,7 @@ def get_weights():
 
         if fields == None:
 
-            message = 'ОШИБКА: не удалось обработать запись журнала "{}"!'.format(entry)
+            message = 'ОШИБКА: не вышло получить продукт и его вес из записи журнала "{}"!'.format(entry)
             exit(message)
 
         item, weight = fields
@@ -82,11 +82,29 @@ def get_consumption(parameter):
 
     for item in weights:
 
-        value = round(weights[item] * catalog[item][parameter] / 100)
+        item_parameters = catalog.get(item)
 
-        details[item] = value
+        if item_parameters != None:
 
-        value_total += value
+            parameter_value = item_parameters.get(parameter)
+
+            if parameter_value != None:
+
+                value = round(weights[item] * parameter_value / 100)
+
+                details[item] = value
+
+                value_total += value
+
+            else:
+
+                message = 'У продукта "{}" в справочнике не указан параметр "{}"!'.format(item, parameter)
+                exit(message)
+
+        else:
+
+            message = 'Продукт "{}" не найден в справочнике!'.format(item)
+            exit(message)
 
     return [details, value_total]
 

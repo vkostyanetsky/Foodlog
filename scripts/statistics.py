@@ -144,8 +144,8 @@ def print_nutrients_balance():
     fats_percent            = percent(fats_total)
     carbohydrates_percent   = percent(carbohydrates_total)
 
-    print_table_row('БАЛАНС БЖУ СЕГОДНЯ', '', proteins_percent, fats_percent, carbohydrates_percent)
-    print_table_row('ЦЕЛЕВОЙ БАЛАНС БЖУ', '', '30%', '20%', '50%')    
+    print_table_row('Баланс БЖУ сегодня', '', proteins_percent, fats_percent, carbohydrates_percent)
+    print_table_row('Целевой баланс БЖУ', '', '30%', '20%', '50%')    
 
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
 dirpath         = os.path.split(script_dirpath)[0]

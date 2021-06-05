@@ -147,6 +147,14 @@ def print_nutrients_balance():
     print_table_row('Баланс БЖУ сегодня', '', proteins_percent, fats_percent, carbohydrates_percent)
     print_table_row('Целевой баланс БЖУ', '', '30%', '20%', '50%')    
 
+def print_bmr():
+
+    balance = options['bmr'] - calories_total
+    message = 'Дневная норма — {} ккал; остаток на сегодня — {}.'.format(options['bmr'], balance)
+
+    print()
+    print(message)
+
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
 dirpath         = os.path.split(script_dirpath)[0]
 
@@ -174,6 +182,8 @@ if len(calories) > 0:
     print()
 
     print_nutrients_balance()
+
+    print_bmr()
 
 else:
 

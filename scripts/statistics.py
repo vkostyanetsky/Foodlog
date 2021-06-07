@@ -150,7 +150,13 @@ def print_nutrients_balance():
 def print_calories_balance():
 
     balance = options['calories_limit'] - calories_total
-    message = 'Дневная норма — {} ккал; остаток на сегодня — {}.'.format(options['calories_limit'], balance)
+
+    if balance >= 0:
+        balance_message = 'остаток на сегодня — {}.'.format(balance)
+    else:
+        balance_message = 'превышение — {}!'.format(balance * -1)
+
+    message = 'Дневная норма — {} ккал; {}'.format(options['calories_limit'], balance_message)
 
     print()
     print(message)

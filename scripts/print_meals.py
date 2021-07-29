@@ -1,6 +1,4 @@
 import os
-import yaml
-import datetime
 import operator
 
 import modules.common_logic as common_logic
@@ -8,7 +6,7 @@ import modules.yaml_wrapper as yaml_wrapper
 
 def get_journal():
 
-    journal_filepath = os.path.join(dirpath, options['journal_filename'])
+    journal_filepath = os.path.join(dirpath, settings['journal_filename'])
 
     result = yaml_wrapper.get_data_from_file(journal_filepath)
     
@@ -19,7 +17,7 @@ def get_journal():
 
 def get_catalog():
 
-    catalog_filepath = os.path.join(dirpath, options['catalog_filename'])
+    catalog_filepath = os.path.join(dirpath, settings['catalog_filename'])
 
     return yaml_wrapper.get_data_from_file(catalog_filepath)
     
@@ -149,22 +147,22 @@ def print_nutrients_balance():
 
 def print_calories_balance():
 
-    balance = options['calories_limit'] - calories_total
+    balance = settings['calories_limit'] - calories_total
 
     if balance >= 0:
         balance_message = 'остаток на сегодня — {}.'.format(balance)
     else:
         balance_message = 'превышение — {}!'.format(balance * -1)
 
-    message = 'Дневная норма — {} ккал; {}'.format(options['calories_limit'], balance_message)
+    message = 'Дневная норма — {} ккал; {}'.format(settings['calories_limit'], balance_message)
 
     print()
     print(message)
 
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
-dirpath         = os.path.split(script_dirpath)[0]
+settings        = common_logic.get_settings(script_dirpath)
 
-options = common_logic.get_options(dirpath)
+dirpath = os.path.split(script_dirpath)[0]
 catalog = get_catalog()
 journal = get_journal()
 weights = get_weights()

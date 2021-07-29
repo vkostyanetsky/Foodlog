@@ -2,5 +2,3 @@ calories_limit:   1650
 archive_dirname:  'history'
 journal_filename: 'meals.yaml'
 catalog_filename: 'foods.yaml'
-water_journal.filename: 'water.yaml'
-water_journal.default_entry_value: 700

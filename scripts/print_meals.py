@@ -42,8 +42,8 @@ def get_weights():
 
         if index != -1:
 
-            item    = entry[0:index]
-            weight  = int(entry[index + 1:])
+            item   = entry[0:index]
+            weight = int(entry[index + 1:])
 
             result = [item, weight]
 

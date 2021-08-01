@@ -37,13 +37,13 @@ def get_weights():
 
     def get_entry_fields(entry):
 
-        entry   = str(entry)
-        fields  = entry.split(',')
+        entry = str(entry)
+        index = entry.rfind(',')
 
-        if len(fields) == 2:
+        if index != -1:
 
-            item    = fields[0].strip()
-            weight  = int(fields[1].strip())
+            item    = entry[0:index]
+            weight  = int(entry[index + 1:])
 
             result = [item, weight]
 

@@ -1,4 +1,4 @@
-calories_limit:   1650
-archive_dirname:  'history'
-journal_filename: 'meals.yaml'
-catalog_filename: 'foods.yaml'
+calories_limit:   1650          # дневной лимит калорий
+archive_dirname:  'history'     # имя директории с архивом дневников
+journal_filename: 'meals.yaml'  # имя файла дневника
+catalog_filename: 'foods.yaml'  # имя файла справочника

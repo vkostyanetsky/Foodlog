@@ -58,7 +58,7 @@ def get_calculated_calories_limit():
         def get_age():
 
             days_in_year    = 365.2425
-            birth_date      = datetime.datetime.strptime(settings['birth_date'], settings['date_format']).date()
+            birth_date      = datetime.datetime.strptime(settings['birth_date'], '%d.%m.%Y').date()
 
             result = (datetime.date.today() - birth_date).days / days_in_year
             

@@ -1,5 +1,6 @@
 import os
 import operator
+import datetime
 
 import modules.common_logic as common_logic
 import modules.yaml_wrapper as yaml_wrapper
@@ -32,6 +33,58 @@ def get_max_item_length():
             result = length
 
     return result + 3
+
+def get_calculated_calories_limit():
+
+    def get_basal_metabolic_rate():
+
+        def get_body_weight():
+
+            def get_body_weights():
+
+                weights_filepath = os.path.join(dirpath, settings['weights_filename'])
+
+                return yaml_wrapper.get_data_from_file(weights_filepath)
+
+            body_weights = get_body_weights()
+
+            if len(body_weights) > 0:
+                result = list(body_weights[-1].items())[0][1]
+            else:
+                result = 0
+
+            return float(result)
+
+        def get_age():
+
+            days_in_year    = 365.2425
+            birth_date      = datetime.datetime.strptime(settings['birth_date'], settings['date_format']).date()
+
+            result = (datetime.date.today() - birth_date).days / days_in_year
+            
+            return int(result)
+
+        weight  = get_body_weight()
+        height  = settings['height']
+        age     = get_age()
+    
+        # https://en.wikipedia.org/wiki/Harris–Benedict_equation
+
+        result = (10 * weight) + (6.25 * height) - (5 * age) 
+
+        if settings['sex'] == 'man':
+            result +=5
+        else:
+            result -=161
+
+        return result
+    
+    basal_metabolic_rate = get_basal_metabolic_rate()
+    
+    calories = basal_metabolic_rate * settings['activity_multiplier']
+    shortage = calories * settings['calories_shortage'] / 100
+    
+    return round(calories - shortage)
 
 def get_weights():
 
@@ -131,7 +184,11 @@ def print_nutrients_balance():
 
     def percent(value):
     
-        result = round(value * 100 / nutrients_total)
+        if nutrients_total > 0:    
+            result = round(value * 100 / nutrients_total)
+        else:
+            result = 0
+
         result = str(result) + '%'
 
         return result
@@ -147,14 +204,19 @@ def print_nutrients_balance():
 
 def print_calories_balance():
 
-    balance = settings['calories_limit'] - calories_total
+    if settings['calories_limit'] > 0:
+        calories_limit = settings['calories_limit']
+    else:
+        calories_limit = get_calculated_calories_limit()
+
+    balance = calories_limit - calories_total
 
     if balance >= 0:
         balance_message = 'остаток на сегодня — {}.'.format(balance)
     else:
         balance_message = 'превышение — {}!'.format(balance * -1)
 
-    message = 'Дневная норма — {} ккал; {}'.format(settings['calories_limit'], balance_message)
+    message = 'Дневная норма — {} ккал; {}'.format(calories_limit, balance_message)
 
     print()
     print(message)
@@ -175,20 +237,11 @@ carbohydrates, carbohydrates_total  = get_consumption('У')
 item_offset = get_max_item_length()
 data_offset = 10
 
-if len(calories) > 0:
+print_table_row('ПРОДУКТ', 'К', 'Б', 'Ж', 'У')
+print()
 
-    print_table_row('ПРОДУКТ', 'К', 'Б', 'Ж', 'У')
+print_nutrients()
+print()
 
-    print()
-
-    print_nutrients()
-
-    print()
-
-    print_nutrients_balance()
-
-    print_calories_balance()
-
-else:
-
-    print('Журнал за день пуст!')
+print_nutrients_balance()
+print_calories_balance()

@@ -73,9 +73,9 @@ def get_calculated_calories_limit():
         result = (10 * weight) + (6.25 * height) - (5 * age) 
 
         if settings['sex'] == 'man':
-            result +=5
+            result += 5
         else:
-            result -=161
+            result -= 161
 
         return result
     

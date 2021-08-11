@@ -193,14 +193,22 @@ def print_nutrients_balance():
 
         return result
 
+    def default_percent(value):
+
+        return '{}%'.format(value)
+
     nutrients_total = proteins_total + fats_total + carbohydrates_total
 
     proteins_percent        = percent(proteins_total)    
     fats_percent            = percent(fats_total)
     carbohydrates_percent   = percent(carbohydrates_total)
 
+    default_proteins_percent        = default_percent(settings['proteins_percent'])
+    default_fats_percent            = default_percent(settings['fats_percent'])
+    default_carbohydrates_percent   = default_percent(settings['carbohydrates_percent'])
+
     print_table_row('Баланс БЖУ сегодня', '', proteins_percent, fats_percent, carbohydrates_percent)
-    print_table_row('Целевой баланс БЖУ', '', '30%', '20%', '50%')    
+    print_table_row('Целевой баланс БЖУ', '', default_proteins_percent, default_fats_percent, default_carbohydrates_percent)
 
 def print_calories_balance():
 

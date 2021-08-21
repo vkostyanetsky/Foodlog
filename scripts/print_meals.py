@@ -230,9 +230,10 @@ def print_calories_balance():
     print(message)
 
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
-settings        = common_logic.get_settings(script_dirpath)
+dirpath         = os.path.split(script_dirpath)[0]
 
-dirpath = os.path.split(script_dirpath)[0]
+settings = common_logic.get_settings(dirpath)
+
 catalog = get_catalog()
 journal = get_journal()
 weights = get_weights()

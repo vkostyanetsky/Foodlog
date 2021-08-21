@@ -65,7 +65,7 @@
 
 ## Как настроить? 
 
-Все параметры — в файле [scripts/settings.yaml](scripts/settings.yaml). 
+Все параметры — в файле [tuner.yaml](scripts/settings.yaml). 
 
 Основные возможности:
 

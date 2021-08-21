@@ -13,9 +13,9 @@ def get_archive_filename():
     return '{}.yaml'.format(date)
 
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
-settings        = common_logic.get_settings(script_dirpath)
+dirpath         = os.path.split(script_dirpath)[0]
 
-dirpath = os.path.split(script_dirpath)[0]
+settings = common_logic.get_settings(dirpath)
 
 journal_filepath    = os.path.join(dirpath, settings['journal_filename'])
 journal             = yaml_wrapper.get_data_from_file(journal_filepath)

@@ -80,5 +80,5 @@ if stored_journal_hash != actual_journal_hash:
     statistics = journal_reader.get_statistics(journal, catalog)
     daily_kcal = limits_calculator.get_daily_calories_limit(dirpath, options)
     
-    message = 'Сегодня съедено {} ккал из {}! 🥣'.format(statistics['calories_total'], daily_kcal)
+    message = 'Сегодня получено {} ккал из {}! 🥣'.format(statistics['calories_total'], daily_kcal)
     send_to_telegram(message)

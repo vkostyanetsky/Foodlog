@@ -81,3 +81,9 @@
 journal_filename: 'meals.yaml'  # имя файла дневника
 catalog_filename: 'foods.yaml'  # имя файла справочника
 ```
+
+## Вопросы
+
+### Зачем нужен файл journal.yaml.md5?
+
+Этот файл создаёт скрипт [send_statistics.py](scripts/send_statistics.py). Внутри — MD5-хэш от данных в файле [journal.yaml](journal.yaml). Скрипт считает актуальный хэш и сравнивает с тем, что лежит в файле (чтобы понять — изменился дневник питания или нет).

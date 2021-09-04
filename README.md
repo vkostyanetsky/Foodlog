@@ -85,6 +85,11 @@ catalog_filename: 'foods.yaml'  # имя файла справочника
 
 ## Вопросы
 
+## Какие модули Python нужно установить?
+
+    pip install requests
+    pip install pyyaml
+
 ### Зачем нужен файл journal.yaml.md5?
 
 Этот файл создаёт скрипт [send_statistics.py](scripts/send_statistics.py). Внутри — MD5-хэш от записей в [дневнике питания](journal.yaml). Скрипт считает актуальный хэш и сравнивает с хэшем из файла, чтобы понять — изменился дневник питания или нет.

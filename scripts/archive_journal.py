@@ -15,15 +15,15 @@ def get_archive_filename():
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
 dirpath         = os.path.split(script_dirpath)[0]
 
-settings = common_logic.get_settings(dirpath)
+options = common_logic.get_options(dirpath)
 
-journal_filepath    = os.path.join(dirpath, settings['journal_filename'])
+journal_filepath    = os.path.join(dirpath, options['journal_filename'])
 journal             = yaml_wrapper.get_data_from_file(journal_filepath)
 
 if journal != None:
 
     archive_filename = get_archive_filename()
-    archive_filepath = os.path.join(dirpath, settings['archive_dirname'], archive_filename)
+    archive_filepath = os.path.join(dirpath, options['archive_dirname'], archive_filename)
 
     if os.path.exists(archive_filepath):
 

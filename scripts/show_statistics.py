@@ -1,9 +1,8 @@
 import os
 import operator
 
-import modules.common_logic         as common_logic
-import modules.journal_reader       as journal_reader
-import modules.limits_calculator    as limits_calculator
+import modules.common_logic     as common_logic
+import modules.journal_reader   as journal_reader
     
 def get_max_item_length():
 
@@ -70,16 +69,12 @@ def print_nutrients_balance():
 
 def print_calories_balance():
 
-    calories_limit = limits_calculator.get_daily_calories_limit(dirpath, options)
-
-    balance = calories_limit - statistics['calories_total']
-
-    if balance >= 0:
-        balance_message = 'остаток на сегодня — {}.'.format(balance)
+    if statistics['calories_to_consume'] >= 0:
+        balance_message = 'остаток на сегодня — {}.'.format(statistics['calories_to_consume'])
     else:
-        balance_message = 'превышение — {}!'.format(balance * -1)
+        balance_message = 'превышение — {}!'.format(statistics['calories_to_consume'] * -1)
 
-    message = 'Дневная норма — {} ккал; {}'.format(calories_limit, balance_message)
+    message = 'Дневная норма — {} ккал; {}'.format(statistics['calories_limit'], balance_message)
 
     print()
     print(message)
@@ -92,7 +87,7 @@ options = common_logic.get_options(dirpath)
 catalog = common_logic.get_catalog(dirpath, options)
 journal = common_logic.get_journal(dirpath, options)
 
-statistics = journal_reader.get_statistics(journal, catalog)
+statistics = journal_reader.get_statistics(journal, catalog, dirpath, options)
 
 item_offset = get_max_item_length()
 data_offset = 10

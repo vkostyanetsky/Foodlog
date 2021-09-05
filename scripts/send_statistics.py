@@ -2,9 +2,8 @@ import os
 import hashlib
 import requests
 
-import modules.common_logic         as common_logic
-import modules.journal_reader       as journal_reader
-import modules.limits_calculator    as limits_calculator
+import modules.common_logic     as common_logic
+import modules.journal_reader   as journal_reader
 
 def store_journal_hash(hash):
 
@@ -77,8 +76,12 @@ if stored_journal_hash != actual_journal_hash:
     catalog = common_logic.get_catalog(dirpath, options)
     journal = common_logic.get_journal(dirpath, options)
 
-    statistics = journal_reader.get_statistics(journal, catalog)
-    daily_kcal = limits_calculator.get_daily_calories_limit(dirpath, options)
-    
-    message = 'Сегодня получено {} ккал из {}! 🥣'.format(statistics['calories_total'], daily_kcal)
+    statistics = journal_reader.get_statistics(journal, catalog, dirpath, options)
+        
+    message = 'Сегодня получено {} ккал из {}! Остаток: {} 🥣'.format(
+        statistics['calories_total'],
+        statistics['calories_limit'],
+        statistics['calories_to_consume']
+    )
+
     send_to_telegram(message)

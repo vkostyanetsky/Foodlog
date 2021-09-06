@@ -85,7 +85,7 @@ catalog_filename: 'foods.yaml'  # имя файла справочника
 
 ## Вопросы
 
-## Какие модули Python нужно установить?
+### Какие модули Python нужно установить?
 
     pip install requests
     pip install pyyaml

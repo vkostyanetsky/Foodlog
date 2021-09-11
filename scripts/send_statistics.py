@@ -1,4 +1,5 @@
 import os
+import random
 import hashlib
 import requests
 
@@ -58,6 +59,36 @@ def send_to_telegram(text: str):
     if result.status_code != 200:
         raise Exception('Unable to send a message via Telegram!')
 
+def get_random_food_related_emoji():
+
+    smilies = [
+        '🍏', '🍎', '🍐', '🍊', '🍋',
+        '🍌', '🍉', '🍇', '🍓', '🍈',
+        '🍒', '🍑', '🥭', '🍍', '🥥',
+        '🥝', '🍅', '🍆', '🥑', '🥦',
+        '🥬', '🥒', '🌶', '🌽', '🥕',
+        '🧄', '🧅', '🥔', '🍠', '🥐',
+        '🥯', '🍞', '🥖', '🥨', '🧀',
+        '🥚', '🍳', '🧈', '🥞', '🧇',
+        '🥓', '🥩', '🍗', '🍖', '🦴',
+        '🌭', '🍔', '🍟', '🍕', '🥪',
+        '🥙', '🧆', '🌮', '🌯', '🥗',
+        '🥘', '🥫', '🍝', '🍜', '🍲',
+        '🍛', '🍣', '🍱', '🥟', '🦪',
+        '🍤', '🍙', '🍚', '🍘', '🍥',
+        '🥠', '🥮', '🍢', '🍡', '🍧',
+        '🍨', '🍦', '🥧', '🧁', '🍰',
+        '🎂', '🍮', '🍭', '🍬', '🍫',
+        '🍿', '🍩', '🍪', '🌰', '🥜', 
+        '🍯', '🥛', '🍼', '☕️', '🍵',
+        '🧃', '🥤', '🍶', '🍺', '🍻',
+        '🥂', '🍷', '🥃', '🍸', '🍹',
+        '🧉', '🍾', '🧊', '🥄', '🍴',
+        '🍽', '🥣', '🥡', '🥢', '🧂'
+    ]
+
+    return random.choice(smilies)
+
 scripts_dirpath = os.path.abspath(os.path.dirname(__file__))
 
 dirpath = os.path.split(scripts_dirpath)[0]
@@ -77,11 +108,23 @@ if stored_journal_hash != actual_journal_hash:
     journal = common_logic.get_journal(dirpath, options)
 
     statistics = journal_reader.get_statistics(journal, catalog, dirpath, options)
-        
-    message = 'Сегодня получено {} ккал из {}! Остаток: {} 🥣'.format(
+    
+    if statistics['calories_to_consume'] >= 0:
+
+        message = 'Сегодня получено {} ккал из {}! Остаток: {} {}'
+
+    else:
+
+        message = 'Сегодня получено {} ккал из {}! Избыток: {} {}'
+        statistics['calories_to_consume'] *= -1
+
+    emoji = get_random_food_related_emoji()
+
+    message = message.format(
         statistics['calories_total'],
         statistics['calories_limit'],
-        statistics['calories_to_consume']
+        statistics['calories_to_consume'],
+        emoji
     )
 
     send_to_telegram(message)

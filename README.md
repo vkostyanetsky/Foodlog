@@ -87,8 +87,7 @@ catalog_filename: 'foods.yaml'  # имя файла справочника
 
 ### Какие модули Python нужно установить?
 
-    pip install requests
-    pip install pyyaml
+Требования к модулям и их версиям приведены в файле [requirements.txt](requirements.txt).
 
 ### Зачем нужен файл journal.yaml.md5?
 

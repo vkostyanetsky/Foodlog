@@ -1,9 +1,8 @@
-import os
 import datetime
 
 import modules.yaml_wrapper as yaml_wrapper
 
-def get_statistics(journal, catalog, dirpath, options):
+def get_statistics(journal, catalog, options):
 
     def get_weights():
 
@@ -86,13 +85,7 @@ def get_statistics(journal, catalog, dirpath, options):
 
                 def get_body_weight():
 
-                    def get_body_weights():
-
-                        weights_filepath = os.path.join(dirpath, options['weights_filename'])
-
-                        return yaml_wrapper.get_data_from_file(weights_filepath)
-
-                    body_weights = get_body_weights()
+                    body_weights = yaml_wrapper.get_data_from_file(options['weights_filepath'])
 
                     if len(body_weights) > 0:
                         result = list(body_weights[-1].items())[0][1]

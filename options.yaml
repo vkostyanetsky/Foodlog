@@ -53,10 +53,10 @@ carbohydrates_percent:  30
 # в корневой директории приложения.
 # -----------------------------------------------------------------------------
 
-journal_filename: 'journal.yaml'  # Имя файла дневника питания
-catalog_filename: 'catalog.yaml'  # Имя файла справочника продуктов питания
-weights_filename: 'weights.yaml'  # Имя файла с замерами веса вашего тела
-archive_dirname:  'history'       # Имя папки архива дневников
+journal_filepath: './journal.yaml'  # Путь к файлу дневника питания
+catalog_filepath: './catalog.yaml'  # Путь к файлу справочника продуктов питания
+weights_filepath: './weights.yaml'  # Путь к файлу с замерами веса вашего тела
+archive_dirpath:  './history'       # Путь к папке архива дневников
 
 # -----------------------------------------------------------------------------
 # ИНТЕГРАЦИЯ С TELEGRAM

@@ -1,7 +1,7 @@
-import os
 import operator
 
 import modules.common_logic     as common_logic
+import modules.yaml_wrapper     as yaml_wrapper
 import modules.journal_reader   as journal_reader
     
 def get_max_item_length():
@@ -79,15 +79,11 @@ def print_calories_balance():
     print()
     print(message)
 
-script_dirpath  = os.path.abspath(os.path.dirname(__file__))
-dirpath         = os.path.split(script_dirpath)[0]
+options = common_logic.get_options()
+catalog = common_logic.get_catalog(options)
+journal = common_logic.get_journal(options)
 
-options = common_logic.get_options(dirpath)
-
-catalog = common_logic.get_catalog(dirpath, options)
-journal = common_logic.get_journal(dirpath, options)
-
-statistics = journal_reader.get_statistics(journal, catalog, dirpath, options)
+statistics = journal_reader.get_statistics(journal, catalog, options)
 
 item_offset = get_max_item_length()
 data_offset = 10

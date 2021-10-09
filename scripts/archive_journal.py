@@ -23,7 +23,7 @@ journal             = yaml_wrapper.get_data_from_file(journal_filepath)
 if journal != None:
 
     archive_filename = get_archive_filename()
-    archive_filepath = os.path.join(dirpath, options['archive_dirname'], archive_filename)
+    archive_filepath = os.path.join(options['archive_dirpath'], archive_filename)
 
     if os.path.exists(archive_filepath):
 

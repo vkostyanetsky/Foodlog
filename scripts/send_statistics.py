@@ -30,7 +30,7 @@ def get_actual_journal_hash():
     buffer_size = 65536
     md5         = hashlib.md5()
 
-    with open(journal_filepath, 'rb') as file:
+    with open(options['journal_filepath'], 'rb') as file:
         
         while True:
 
@@ -89,13 +89,9 @@ def get_random_food_related_emoji():
 
     return random.choice(smilies)
 
-scripts_dirpath = os.path.abspath(os.path.dirname(__file__))
+options = common_logic.get_options()
 
-dirpath = os.path.split(scripts_dirpath)[0]
-options = common_logic.get_options(dirpath)
-
-journal_filepath                = os.path.join(dirpath, options['journal_filename'])
-stored_journal_hash_filepath    = '{}.md5'.format(journal_filepath)
+stored_journal_hash_filepath = '{}.md5'.format(options['journal_filepath'])
 
 stored_journal_hash = get_stored_journal_hash()
 actual_journal_hash = get_actual_journal_hash()
@@ -104,10 +100,10 @@ if stored_journal_hash != actual_journal_hash:
 
     store_journal_hash(actual_journal_hash)
 
-    catalog = common_logic.get_catalog(dirpath, options)
-    journal = common_logic.get_journal(dirpath, options)
+    catalog = common_logic.get_catalog(options)
+    journal = common_logic.get_journal(options)
 
-    statistics = journal_reader.get_statistics(journal, catalog, dirpath, options)
+    statistics = journal_reader.get_statistics(journal, catalog, options)
     
     if statistics['calories_to_consume'] >= 0:
 

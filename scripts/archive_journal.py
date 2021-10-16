@@ -15,10 +15,8 @@ def get_archive_filename():
 script_dirpath  = os.path.abspath(os.path.dirname(__file__))
 dirpath         = os.path.split(script_dirpath)[0]
 
-options = common_logic.get_options(dirpath)
-
-journal_filepath    = os.path.join(dirpath, options['journal_filename'])
-journal             = yaml_wrapper.get_data_from_file(journal_filepath)
+options = common_logic.get_options()
+journal = yaml_wrapper.get_data_from_file(options['journal_filepath'])
 
 if journal != None:
 
@@ -30,6 +28,6 @@ if journal != None:
         if os.path.exists(archive_filepath):
             print('Журнал уже сохранен в архиве!')
         else:
-            shutil.copyfile(journal_filepath, archive_filepath)
+            shutil.copyfile(options['journal_filepath'], archive_filepath)
             
-    open(journal_filepath, 'w').close()
+    open(options['journal_filepath'], 'w').close()

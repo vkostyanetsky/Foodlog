@@ -22,14 +22,14 @@ journal             = yaml_wrapper.get_data_from_file(journal_filepath)
 
 if journal != None:
 
-    archive_filename = get_archive_filename()
-    archive_filepath = os.path.join(options['archive_dirpath'], archive_filename)
+    if options['archive_dirpath'] != '':
 
-    if os.path.exists(archive_filepath):
+        archive_filename = get_archive_filename()
+        archive_filepath = os.path.join(options['archive_dirpath'], archive_filename)
 
-        print("Журнал уже сохранен в архиве!")
-
-    else:
-
-        shutil.copyfile(journal_filepath, archive_filepath)
-        open(journal_filepath, 'w').close()
+        if os.path.exists(archive_filepath):
+            print('Журнал уже сохранен в архиве!')
+        else:
+            shutil.copyfile(journal_filepath, archive_filepath)
+            
+    open(journal_filepath, 'w').close()

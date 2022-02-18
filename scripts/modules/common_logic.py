@@ -1,6 +1,21 @@
 import os
 import sys
+import argparse
+
 import modules.yaml_wrapper as yaml_wrapper
+
+def get_arguments():
+
+    args_parser = argparse.ArgumentParser()
+
+    args_parser.add_argument(
+        '--settings',
+        type = str,
+        help = 'the path to the settings file',
+        required = True
+    )
+        
+    return args_parser.parse_args()
 
 def get_options():
 

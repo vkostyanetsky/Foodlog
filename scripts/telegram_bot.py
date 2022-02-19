@@ -3,11 +3,13 @@
 # This program is dedicated to the public domain under the CC0 license.
 
 import logging
+import random
 
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 import modules.fasting_journal_wrapper as fasting_journal_wrapper
+import modules.journal_reader   as journal_reader
 import modules.common_logic as common_logic
 import modules.yaml_wrapper as yaml_wrapper
 
@@ -63,6 +65,66 @@ def show_fasting_info(update: Update, context: CallbackContext) -> None:
 
         update.message.reply_text('Usage: /fastinfo')        
 
+def show_intake(update: Update, context: CallbackContext) -> None:
+
+    def get_random_food_related_emoji():
+
+        smilies = [
+            '🍏', '🍎', '🍐', '🍊', '🍋',
+            '🍌', '🍉', '🍇', '🍓', '🍈',
+            '🍒', '🍑', '🥭', '🍍', '🥥',
+            '🥝', '🍅', '🍆', '🥑', '🥦',
+            '🥬', '🥒', '🌶', '🌽', '🥕',
+            '🧄', '🧅', '🥔', '🍠', '🥐',
+            '🥯', '🍞', '🥖', '🥨', '🧀',
+            '🥚', '🍳', '🧈', '🥞', '🧇',
+            '🥓', '🥩', '🍗', '🍖', '🦴',
+            '🌭', '🍔', '🍟', '🍕', '🥪',
+            '🥙', '🧆', '🌮', '🌯', '🥗',
+            '🥘', '🥫', '🍝', '🍜', '🍲',
+            '🍛', '🍣', '🍱', '🥟', '🦪',
+            '🍤', '🍙', '🍚', '🍘', '🍥',
+            '🥠', '🥮', '🍢', '🍡', '🍧',
+            '🍨', '🍦', '🥧', '🧁', '🍰',
+            '🎂', '🍮', '🍭', '🍬', '🍫',
+            '🍿', '🍩', '🍪', '🌰', '🥜', 
+            '🍯', '🥛', '🍼', '☕️', '🍵',
+            '🧃', '🥤', '🍶', '🍺', '🍻',
+            '🥂', '🍷', '🥃', '🍸', '🍹',
+            '🧉', '🍾', '🧊', '🥄', '🍴',
+            '🍽', '🥣', '🥡', '🥢', '🧂'
+        ]
+
+        return random.choice(smilies)
+
+    arguments   = common_logic.get_arguments()
+    settings    = yaml_wrapper.get_data_from_file(arguments.settings)
+
+    catalog = common_logic.get_catalog(settings)
+    journal = common_logic.get_journal(settings)
+
+    statistics = journal_reader.get_statistics(journal, catalog, settings)
+    
+    if statistics['calories_to_consume'] >= 0:
+
+        message = 'Сегодня получено {} ккал из {}! Остаток: {} {}'
+
+    else:
+
+        message = 'Сегодня получено {} ккал из {}! Избыток: {} {}'
+        statistics['calories_to_consume'] *= -1
+
+    emoji = get_random_food_related_emoji()
+
+    message = message.format(
+        statistics['calories_total'],
+        statistics['calories_limit'],
+        statistics['calories_to_consume'],
+        emoji
+    )
+
+    update.message.reply_text(message)
+
 def main() -> None:
 
     arguments   = common_logic.get_arguments()
@@ -76,6 +138,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("newfast", start_fasting))
     dispatcher.add_handler(CommandHandler("endfast", stop_fasting))
     dispatcher.add_handler(CommandHandler("fastinfo", show_fasting_info))
+    dispatcher.add_handler(CommandHandler("intake", show_intake))
 
     updater.start_polling()
 

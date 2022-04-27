@@ -1,4 +1,12 @@
-# Список съеденного за день. Всё предельно аскетично: что съел и вес в граммах.
+# Here you jot down, day by day, what you eat. Each line of a day is a food name and weight in grams.
 
-- Яблоко, 130
-- Сарделька, 160
+26.04.2022:
+
+  - apple: 130
+  - sausages: 160
+
+27.04.2022:
+
+  - apple: 200
+  - sausage: 300
+

@@ -20,9 +20,8 @@ def get_calories_limit(profile, weights):
 
             def get_age():
 
-                birth_date = datetime.datetime.strptime(profile['birth_date'], '%d.%m.%Y').date()
                 days_in_year = 365.2425
-                days_in_life = (datetime.date.today() - birth_date).days
+                days_in_life = (datetime.date.today() - profile['birth_date']).days
 
                 return int(days_in_life / days_in_year)
 

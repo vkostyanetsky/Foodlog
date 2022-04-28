@@ -215,7 +215,7 @@ def run():
     if args.date is None:
         date = datetime.datetime.today().strftime('%d.%m.%Y')
     else:
-        date = datetime.datetime.strptime(args.date, '%d.%m.%Y')
+        date = args.date
 
     journal_for_date = journal.get(date)
 

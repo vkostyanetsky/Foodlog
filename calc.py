@@ -87,13 +87,31 @@ def get_consumption_for_date(journal_for_date, catalog):
 
         return result
 
+    def get_aggregates_of_journal_for_date():
+
+        result = {}
+
+        for entry in journal_for_date:
+
+            entry_title = tuple(entry)[0]
+            entry_grams = tuple(entry.values())[0]
+
+            if result.get(entry_title) is None:
+                result[entry_title] = entry_grams
+            else:
+                result[entry_title] += entry_grams
+
+        return result
+
     foods = []
     total = get_total_template()
 
-    for entry in journal_for_date:
+    aggregates = get_aggregates_of_journal_for_date()
 
-        title = tuple(entry)[0]
-        grams = tuple(entry.values())[0]
+    for aggregate in aggregates:
+
+        title = aggregate
+        grams = aggregates[aggregate]
 
         food = get_food(title)
 

@@ -110,23 +110,23 @@ def get_consumption_for_date(journal_for_date, catalog):
 
     for aggregate in aggregates:
 
-        title = aggregate
-        grams = aggregates[aggregate]
+        try:
 
-        food = get_food(title)
+            title = aggregate
+            grams = aggregates[aggregate]
 
-        if food is None:
-            foods.append(get_food_template(title))
-            food = foods[-1]
+            food = get_food(title)
 
-        for attribute in ('calories', 'protein', 'fat', 'carbs'):
+            if food is None:
+                foods.append(get_food_template(title))
+                food = foods[-1]
 
             attribute_values = get_food_attributes(title)
 
-            try:
+            if attribute_values is None:
+                raise CatalogEntryNotFound(title)
 
-                if attribute_values is None:
-                    raise CatalogEntryNotFound(title)
+            for attribute in ('calories', 'protein', 'fat', 'carbs'):
 
                 value = round(grams * attribute_values[attribute] / 100)
 
@@ -134,9 +134,9 @@ def get_consumption_for_date(journal_for_date, catalog):
 
                 total[attribute] += value
 
-            except CatalogEntryNotFound as exception:
+        except CatalogEntryNotFound as exception:
 
-                print(exception.message)
+            print(exception.message)
 
     foods = sorted(foods, key=lambda x: x['total']['calories'], reverse=True)
 

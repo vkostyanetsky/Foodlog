@@ -1,6 +1,7 @@
 import yaml
 import argparse
 import datetime
+from modules.exceptions import CatalogEntryNotFound
 
 
 def get_calories_limit(profile, weights):
@@ -104,11 +105,20 @@ def get_consumption_for_date(journal_for_date, catalog):
 
             attribute_values = get_food_attributes(title)
 
-            value = round(grams * attribute_values[attribute] / 100)
+            try:
 
-            food['total'][attribute] += value
+                if attribute_values is None:
+                    raise CatalogEntryNotFound(title)
 
-            total[attribute] += value
+                value = round(grams * attribute_values[attribute] / 100)
+
+                food['total'][attribute] += value
+
+                total[attribute] += value
+
+            except CatalogEntryNotFound as exception:
+
+                print(exception.message)
 
     foods = sorted(foods, key=lambda x: x['total']['calories'], reverse=True)
 

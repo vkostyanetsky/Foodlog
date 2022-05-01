@@ -1,4 +1,6 @@
-# Here you jot down, day by day, what you eat. Each line of a day is a food name and weight in grams.
+# The example of your journal. Here you jot down, day by day, what you eat.
+# Branches here are particular dates (DD.MM.YYYY), and leaves are food names
+# and weight in grams.
 
 26.04.2022:
 

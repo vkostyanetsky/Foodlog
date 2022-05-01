@@ -2,83 +2,71 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Этот инструмент я использую для расчета примерного количества калорий, которые я слопал за день, а ещё — для контроля за балансом БЖУ (белков, жиров и углеводов)
+I wrote this script to calculate approximate number of calories, proteins, fats & carbohydrates which I consume during a day. 
 
-Знаю, есть целый выводок приложений для решения этой задачи, но мне не нравится ни одно из них: какое-то теряет данные, где-то неудобный интерфейс, и почти все назойливо пытаются всучить платную подписку. А мне нужна одна-единственная простая функция!
+I know that there is a lot of tools to solve this task. I tried to use many of them, but gave up eventually. Why? Well, some of them lose my data without an obvious reason, some have really terrible UI, and almost every one tries to sell me paid subscription. Gosh, I just need one simple function!
 
-## Как использовать? 
+So I decide:
 
-Во-первых, каждое утро я взвешиваюсь и записываю в журнал веса ([weights.yaml](weights.yaml)) текущее значение.
+![Fine, I'll do it myself](tanos.png)
 
-Пример:
+## How to use it? 
 
-```yaml
-- 2021-08-02: 104.5
-```
+There are two YAML files: [catalog](catalog.yaml) of food you used to consume and [journal](journal.yaml) of products you have eaten.
 
-Во-вторых, в течении дня я записываю в дневник ([journal.yaml](journal.yaml)) всё, что съел.
-
-Пример:
+For instance, you have eaten two apples for a lunch. If it's first time you eat an apple, you open catalog.yaml and write something like:  
 
 ```yaml
-- Яблоко, 130
+apple: 
+  calories: 54
+  protein:  0.4
+  fat:      0.4
+  carbs:    9.8
 ```
 
-Если за день я съел что-то, чего раньше не ел — добавляю информацию об этом продукте или блюде в справочник ([catalog.yaml](catalog.yaml)). Там хранится калорийность и количество белков-жиров-углеводов на сто грамм.
-
-Пример:
+Then you open journal.yaml and write the name of food you just added to the catalog and its weights in grams:
 
 ```yaml
-Яблоко: {
-    К: 40,      # калорийность
-    Б: 0.4,     # содержание белков
-    Ж: 0.4,     # содержание жиров
-    У: 9.8      # содержание углеводов
-}
+27.04.2022:
+
+  - apple: 114
+  - apple: 129
 ```
 
-Когда я хочу понять, не перевалил ли за норму калорий в сутки и соблюдается ли баланс БЖУ — запускаю скрипт вывода статистики ([scripts/show_statistics.py](scripts/show_statistics.py)). Он отображает:
+First line here is a current date. The journal may consist of many of them.  
 
-1. Остаток калорий на сегодня;
-2. Общую калорийность в разрезе съеденных продуктов;
-3. Количество белков, жиров и углеводов для каждого съеденного продукта;
-4. Процентное соотношение всех потребленных в течении дня белков, жиров и углеводов.
-
-Пример:
+After that, it's possible to execute [calc.py](calc.py) and see how many calories and macronutrients I've consumed:
 
 ```
-ПРОДУКТ                                       К          Б          Ж          У         
-
-Вареная ветчина "Семейная"                    306        24         21         5         
-Сосиски "Восточные"                           121        10         9          0         
-Яблоко                                        56         1          1          14        
-
-ИТОГО                                         483        35         31         19        
-
-БАЛАНС БЖУ СЕГОДНЯ                                       41%        36%        22%       
-ЦЕЛЕВОЙ БАЛАНС БЖУ                                       30%        20%        50%       
-
-Дневная норма — 1650 ккал; остаток на сегодня — 1167.
+py calc.py --profile=profile.yaml --journal=journal.yaml --catalog=catalog.yaml --weights=weights.yaml
 ```
 
-Кроме этого, каждое утро я запускаю скрипт создания нового дневника ([scripts/archive_journal.py](scripts/archive_journal.py)) — он создает копию дневника в папке `history`, а потом очищает его.
+For instance, script output may look like this:
 
-## Как настроить? 
+```
+FOOD                             CALORIES        PROTEIN         FAT             CARBS          
 
-Все параметры — в файле [options.yaml](options.yaml). 
+dumplings                        674             29              30              71             
+bombarr                          377             40              13              4              
+apple                            371             3               3               67             
+whey                             186             36              3               3              
+eggs                             182             15              13              1              
+crab meat                        119             5               2               21             
+tomato juice                     61              0               0               14             
+white yogurt                     55              3               2               5              
 
-Основные возможности:
+TOTAL                            2025            131             66              186            
 
-1. Норма калорий может считаться автоматически. Это делается по формуле Харриса-Бенедикта; она работает на основании вашего возраста (параметр `birth_date`), роста (параметр `height`), пола (параметр `sex`) и текущего веса (берется из файла `scale.yaml`).
-2. При этом может учитывается ваша физическая активность (см. параметр `activity_multiplier`).
-3. Если конечная цель — похудеть, то из можно автоматически срезать норму на определенный процент (см. параметр `calories_shortage`).
-4. Автоматический расчет нормы можно не использовать вообще и задать лимит калорий самостоятельно — через параметр `calories_limit`.
-5. Все файлы с данными могут быть переименованы или перемещены, как вам удобно (см. параметры `journal_filepath`, `catalog_filepath` и так далее).
-6. При изменении дневника питания можно отправлять в Телеграм информацию о том, сколько калорий сегодня съедено и сколько ещё можно съесть. Для этого заполните параметр `telegram_bot_api_token` и параметр `telegram_chat_id`, а потом настройте регулярный запуск скрипта [send_statistics.py](scripts/send_statistics.py).
+Balance today                                    34%             17%             49%            
+Target ranges                                    45%             25%             30%            
 
+Daily calorie intake — 1802 kcal; excess — 223!
+```
 
-## Вопросы
+## How to set up?
 
-### Какие модули Python нужно установить?
+You can find all configurable parameters in the [profile.yaml](profile.yaml).  
 
-Требования к модулям и их версиям приведены в файле [requirements.txt](requirements.txt).
+## Which requirements does it have?
+
+All dependencies are listed in [requirements.txt](requirements.txt).

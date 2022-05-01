@@ -1,15 +1,10 @@
-﻿# Справочник того, что я ем. Содержит калорийность и значения питательных веществ:
-# белков, жиров и углеводов. На основании этих данных скрипт считает баланс БЖУ
-# и общий приход килокалорий за день.
+﻿# Example of food catalog. Each record consists of four required attributes:
+# number of calories, proteins, fats & carbs. All values must be set based on
+# 100 grams.
 #
-# Все значения указываются из расчета на 100 грамм.
-#
-# Обозначения:
-# - К = килокалории
-# - Б = белки
-# - Ж = жиры
-# - У = углеводы
-#
+# Also, you may set aliases for any item which you further will be able to use
+# in the journal. For the instance down below, there is no difference between
+# writing "sausage" or "sausages": second one has the same meaning.
 
 sausage:
     calories:  113.8

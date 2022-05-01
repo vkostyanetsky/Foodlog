@@ -1,7 +1,7 @@
 import yaml
 import argparse
 import datetime
-from modules.exceptions import CatalogEntryNotFound
+from exceptions import CatalogEntryNotFound
 
 
 def get_calories_limit(profile, weights):

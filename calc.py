@@ -151,17 +151,17 @@ def get_yaml_data(yaml_filepath):
     return result
 
 
-def get_args() -> argparse.Namespace:
+def get_args() -> dict:
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--profile', type=str, help='a path to the profile file', required=True)
-    parser.add_argument('--journal', type=str, help='a path to the journal file', required=True)
-    parser.add_argument('--catalog', type=str, help='a path to the catalog file', required=True)
+    parser.add_argument('--profile', type=str, help='a path to the profile file')
+    parser.add_argument('--journal', type=str, help='a path to the journal file')
+    parser.add_argument('--catalog', type=str, help='a path to the catalog file')
     parser.add_argument('--weights', type=str, help='a path to the weights file')
     parser.add_argument('--date', type=str, help='a particular date to calculate consumption statistics')
 
-    return parser.parse_args()
+    return vars(parser.parse_args())
 
 
 def run():
@@ -221,7 +221,6 @@ def run():
 
     def print_calories_balance():
 
-        weights = get_yaml_data(args.weights)
         calories_limit = get_calories_limit(profile, weights)
         calories_to_consume = calories_limit - total['calories']
 
@@ -234,16 +233,62 @@ def run():
 
         print(message)
 
+    def get_profile():
+
+        if args.profile is None:
+            file_path = 'profile.yaml'
+        else:
+            file_path = args.profile
+
+        return get_yaml_data(file_path)
+
+    def get_journal():
+
+        if args.journal is None:
+            file_path = 'journal.yaml'
+        else:
+            file_path = args.journal
+
+        return get_yaml_data(file_path)
+
+    def get_catalog():
+
+        if args.journal is None:
+            file_path = 'catalog.yaml'
+        else:
+            file_path = args.catalog
+
+        return get_yaml_data(file_path)
+
+    def get_weights():
+
+        if args.journal is None:
+            file_path = 'catalog.yaml'
+        else:
+            file_path = args.catalog
+
+        return get_yaml_data(file_path)
+
+    def get_yaml_file_data(arg):
+
+        yaml_filepath = args.get(arg)
+
+        if yaml_filepath is None:
+            yaml_filepath = '{}.yaml'.format(arg)
+
+        with open(yaml_filepath, encoding='utf-8-sig') as yaml_file:
+            result = yaml.safe_load(yaml_file)
+
+        return result
+
     args = get_args()
 
-    profile = get_yaml_data(args.profile)
-    journal = get_yaml_data(args.journal)
-    catalog = get_yaml_data(args.catalog)
+    profile = get_yaml_file_data('profile')
+    journal = get_yaml_file_data('journal')
+    catalog = get_yaml_file_data('catalog')
+    weights = get_yaml_file_data('weights')
 
-    if args.date is None:
-        date = datetime.datetime.today().strftime('%d.%m.%Y')
-    else:
-        date = args.date
+    date = args['date'] if args.get('date') is not None else datetime.datetime.today().strftime('%d.%m.%Y')
 
     journal_for_date = journal.get(date)
 

@@ -78,7 +78,7 @@ Daily calorie intake — 1802 kcal; excess — 223!
 
 ## How to set up?
 
-You can find all configurable parameters in the [profile.yaml](profile.yaml).  
+You can find all configurable parameters (the calories limit, target ranges of macronutrients etc.) in the [profile.yaml](profile.yaml).  
 
 ## Which requirements does it have?
 

@@ -4,7 +4,7 @@
 
 I wrote this script to calculate approximate number of calories, proteins, fats & carbohydrates which I consume during a day. 
 
-I know that there is a lot of tools to solve this task. I tried to use many of them, but gave up eventually. Why? Well, some of them lose my data without an obvious reason, some have really terrible UI, and almost every one tries to sell me paid subscription. Gosh, I just need one simple function!
+I know that there is a lot of tools to solve this task. I tried to use many of them, but gave up eventually. Why? Well, some of them lose my data without an obvious reason, some have really terrible UI, and almost every one tries to sell me a paid subscription. Gosh, I just need one simple function!
 
 So I decide:
 
@@ -14,7 +14,7 @@ So I decide:
 
 There are two YAML files: [catalog](catalog.yaml) of food you used to consume and [journal](journal.yaml) of products you have eaten.
 
-For instance, you have eaten two apples for a lunch. If it's first time you eat an apple, you open catalog.yaml and write something like:  
+Let's imagine that today is March 27, and you have eaten two apples for a lunch. If it's first time you eat an apple, you open catalog.yaml and write something like:  
 
 ```yaml
 apple: 
@@ -33,12 +33,25 @@ Then you open journal.yaml and write the name of food you just added to the cata
   - apple: 129
 ```
 
-First line here is a current date. The journal may consist of many of them.  
+First line here is a current date. The journal may consist of many of them. For example:
 
-After that, it's possible to execute [calc.py](calc.py) and see how many calories and macronutrients I've consumed:
+```yaml
+26.04.2022:
+  
+  - apple: 120  
+  - bread: 403
+  - pizza: 356
+
+27.04.2022:
+
+  - apple: 114
+  - apple: 129
+```
+
+Having catalog & journal both filled, it's possible to execute [calc.py](calc.py) and see how many calories and macronutrients you've consumed:
 
 ```
-py calc.py --profile=profile.yaml --journal=journal.yaml --catalog=catalog.yaml --weights=weights.yaml
+py calc.py
 ```
 
 For instance, script output may look like this:

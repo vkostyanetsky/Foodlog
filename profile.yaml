@@ -26,13 +26,13 @@ sex:        'man'         # Sex (man/woman)
 
 activity_multiplier:  1.35
 
-# Calories shortage in percents.
+# Caloric deficit in percents.
 #
 # For instance, your daily calorie intake is 2500. However, you want to lose weight, so you decide to consume 25% less.
 # In this case, you should set this option to 25: it makes the 625 calorie deficit you need, and your daily intake
 # becomes equal to 1875.
 
-calories_shortage: 25
+caloric_deficit: 25
 
 # Macronutrient ranges in percents of your daily income.
 

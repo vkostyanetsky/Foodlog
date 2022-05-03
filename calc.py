@@ -42,7 +42,7 @@ def get_calories_limit(profile, weights):
         basal_metabolic_rate = get_basal_metabolic_rate()
 
         calories = basal_metabolic_rate * profile['activity_multiplier']
-        shortage = calories * profile['calories_shortage'] / 100
+        shortage = calories * profile['caloric_deficit'] / 100
 
         return round(calories - shortage)
 

@@ -1,46 +1,40 @@
-# Норма потребления калорий в день.
+# DAILY CALORIE INTAKE (FIXED VALUE)
 #
-# Если значение параметра равно нулю, то скрипт будет рассчитывать норму калорий
-# автоматически с помощью параметров из раздела ниже.
+# If it is equal to 0, then the script calculates daily intake automatically, using options below.
 
 calories_limit: 0
 
-# -----------------------------------------------------------------------------
-# АВТОМАТИЧЕСКИЙ РАСЧЕТ НОРМЫ КАЛОРИЙ В ДЕНЬ
+# DAILY CALORIE INTAKE (AUTOMATICALLY CALCULATING VALUE)
 #
-# Расчет делается по формуле Харриса-Бенедикта (приблизительная оценка
-# на основе веса тела, роста и возраста).
-# -----------------------------------------------------------------------------
+# The calculation is based on Harris–Benedict equation. It is a well-known way to estimate
+# an individual's basal metabolic rate (BMR).
+#
+# Have a closer look: https://en.wikipedia.org/wiki/Harris–Benedict_equation
 
-birth_date: 1983-12-29    # Дата рождения в формате "год-месяц-день"
-height:     184           # Рост в сантиметрах
-sex:        'man'         # Пол (man/women)
+birth_date: 1983-12-29    # Birthday in "YYYY-MM-DD" format
+height:     184           # Height in centimeters
+sex:        'man'         # Sex (man/woman)
 
-# Множитель физической активности.
+# Activity multiplier.
 # 
-# Увеличивает норму калорий в зависимостт от вашего образа жизни. Примеры значений:
+# Increases the daily calorie intake depending on your lifestyle. For example:
 #
-# - 1.2 (без спортзала)
-# - 1.375 (спортзал до трех раза в неделю)
-# - 1.55  (спортзал от трех до пяти раз в неделю)
-# - 1.725 (ежедневный спортзал)
+# - 1.2 (you don't go to the gym at all)
+# - 1.375 (you go to the gym three times a week)
+# - 1.55  (you go to the gym from three to five times a week)
+# - 1.725 (wow, you go to the gym every day!)
 
 activity_multiplier:  1.35
 
-# Снижение потребления калорий в процентах.
+# Calories shortage in percents.
 #
-# Например, ваша рассчитанная норма калорий в сутки — 2500. Но вы хотите похудеть и решаете
-# потреблять на 20% меньше. Тогда нужно указать значение 20: это даст дефицит в 500 единиц,
-# и ваша рассчитанная норма станет равна 2000.
+# For instance, your daily calorie intake is 2500. However, you want to lose weight, so you decide to consume 25% less.
+# In this case, you should set this option to 25: it makes the 625 calorie deficit you need, and your daily intake
+# becomes equal to 1875.
 
 calories_shortage: 25
 
-# -----------------------------------------------------------------------------
-# ЦЕЛЕВОЕ СООТНОШЕНИЕ БЕЛКОВ, ЖИРОВ И УГЛЕВОДОВ
-#
-# Значения указываются в процентах. Их можно взять, например, отсюда:
-# https://the-challenger.ru/eda/kak-pravilno-eda-new/kak-rasschityvat-bzhu-i-zachem-eto-nuzhno/
-# -----------------------------------------------------------------------------
+# Macronutrient ranges in percents of your daily income.
 
 protein_percent:  45
 fat_percent:      25

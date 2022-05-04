@@ -1,7 +1,7 @@
 import yaml
 import argparse
 import datetime
-from exceptions import CatalogEntryNotFound
+import exceptions
 
 
 def get_calories_limit(profile, weights):
@@ -124,7 +124,7 @@ def get_consumption_for_date(journal_for_date, catalog):
             attribute_values = get_food_attributes(title)
 
             if attribute_values is None:
-                raise CatalogEntryNotFound(title)
+                raise exceptions.CatalogEntryNotFound(title)
 
             for attribute in ('calories', 'protein', 'fat', 'carbs'):
 
@@ -134,7 +134,7 @@ def get_consumption_for_date(journal_for_date, catalog):
 
                 total[attribute] += value
 
-        except CatalogEntryNotFound as exception:
+        except exceptions.CatalogEntryNotFound as exception:
 
             print(exception.message)
 
@@ -276,8 +276,17 @@ def run():
         if yaml_filepath is None:
             yaml_filepath = '{}.yaml'.format(arg)
 
-        with open(yaml_filepath, encoding='utf-8-sig') as yaml_file:
-            result = yaml.safe_load(yaml_file)
+        result = None
+
+        try:
+
+            with open(yaml_filepath, encoding='utf-8-sig') as yaml_file:
+                result = yaml.safe_load(yaml_file)
+
+        except FileNotFoundError:
+
+            print("File is not found: {}".format(yaml_filepath))
+            exit(1)
 
         return result
 

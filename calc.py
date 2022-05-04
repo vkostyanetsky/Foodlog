@@ -233,42 +233,6 @@ def run():
 
         print(message)
 
-    def get_profile():
-
-        if args.profile is None:
-            file_path = 'profile.yaml'
-        else:
-            file_path = args.profile
-
-        return get_yaml_data(file_path)
-
-    def get_journal():
-
-        if args.journal is None:
-            file_path = 'journal.yaml'
-        else:
-            file_path = args.journal
-
-        return get_yaml_data(file_path)
-
-    def get_catalog():
-
-        if args.journal is None:
-            file_path = 'catalog.yaml'
-        else:
-            file_path = args.catalog
-
-        return get_yaml_data(file_path)
-
-    def get_weights():
-
-        if args.journal is None:
-            file_path = 'catalog.yaml'
-        else:
-            file_path = args.catalog
-
-        return get_yaml_data(file_path)
-
     def get_yaml_file_data(arg):
 
         yaml_filepath = args.get(arg)

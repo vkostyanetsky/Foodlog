@@ -1,3 +1,5 @@
+from requests.structures import CaseInsensitiveDict
+
 import yaml
 import argparse
 import datetime
@@ -258,8 +260,10 @@ def run():
 
     profile = get_yaml_file_data('profile')
     journal = get_yaml_file_data('journal')
-    catalog = get_yaml_file_data('catalog')
     weights = get_yaml_file_data('weights')
+
+    catalog = get_yaml_file_data('catalog')
+    catalog = CaseInsensitiveDict(catalog)
 
     date = args['date'] if args.get('date') is not None else datetime.datetime.today().strftime('%d.%m.%Y')
 

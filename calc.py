@@ -98,9 +98,9 @@ def get_consumption_for_date(journal_for_date, catalog):
 
         result = {}
 
-        try:
+        for entry in journal_for_date:
 
-            for entry in journal_for_date:
+            try:
 
                 entry_title = tuple(entry)[0]
 
@@ -116,9 +116,9 @@ def get_consumption_for_date(journal_for_date, catalog):
                 else:
                     result[entry_title_from_catalog] += entry_grams
 
-        except exceptions.CatalogEntryNotFound as exception:
+            except exceptions.CatalogEntryNotFound as exception:
 
-            print(exception.message)
+                print(exception.message)
 
         return result
 

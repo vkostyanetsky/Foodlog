@@ -6,16 +6,26 @@
 # in the journal. For the instance down below, there is no difference between
 # writing "sausage" or "sausages": second one has the same meaning.
 
+# Below, there are normal entries with all the data needed:
+#
 sausage:
     calories:  113.8
     protein:   3.4
     fat:       0.4
     carbs:     23.7
 
-sausages: sausage
-
 apple:
     calories:  40
     protein:   0.4
     fat:       0.4
     carbs:     9.8
+
+# You can make aliases to normal entries. Have a look:
+#
+sausages: sausage
+apples: apple
+
+# Aliases can link to other aliases, instead of normal entries. For instance:
+#
+sawsyges: sausages
+applaz: apples

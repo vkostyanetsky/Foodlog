@@ -1,5 +1,3 @@
-from requests.structures import CaseInsensitiveDict
-
 import yaml
 import argparse
 import datetime
@@ -80,12 +78,19 @@ def get_consumption_for_date(journal_for_date, catalog):
             'carbs': 0,
         }
 
-    def get_food_attributes(food_title):
+    def get_food_title_from_catalog(food_title):
 
-        result = catalog.get(food_title)
+        result = None
 
-        if type(result) == str:
-            result = catalog.get(result)
+        for catalog_item in catalog:
+
+            if catalog_item.lower() == food_title.lower():
+
+                if type(catalog[catalog_item]) == str:
+                    result = get_food_title_from_catalog(catalog[catalog_item])
+                else:
+                    result = catalog_item
+                break
 
         return result
 
@@ -93,15 +98,27 @@ def get_consumption_for_date(journal_for_date, catalog):
 
         result = {}
 
-        for entry in journal_for_date:
+        try:
 
-            entry_title = tuple(entry)[0]
-            entry_grams = tuple(entry.values())[0]
+            for entry in journal_for_date:
 
-            if result.get(entry_title) is None:
-                result[entry_title] = entry_grams
-            else:
-                result[entry_title] += entry_grams
+                entry_title = tuple(entry)[0]
+
+                entry_title_from_catalog = get_food_title_from_catalog(entry_title)
+
+                if entry_title_from_catalog is None:
+                    raise exceptions.CatalogEntryNotFound(entry_title)
+
+                entry_grams = tuple(entry.values())[0]
+
+                if result.get(entry_title_from_catalog) is None:
+                    result[entry_title_from_catalog] = entry_grams
+                else:
+                    result[entry_title_from_catalog] += entry_grams
+
+        except exceptions.CatalogEntryNotFound as exception:
+
+            print(exception.message)
 
         return result
 
@@ -112,33 +129,24 @@ def get_consumption_for_date(journal_for_date, catalog):
 
     for aggregate in aggregates:
 
-        try:
+        title = aggregate
+        grams = aggregates[aggregate]
 
-            title = aggregate
-            grams = aggregates[aggregate]
+        food = get_food(title)
 
-            food = get_food(title)
+        if food is None:
+            foods.append(get_food_template(title))
+            food = foods[-1]
 
-            if food is None:
-                foods.append(get_food_template(title))
-                food = foods[-1]
+        attribute_values = catalog[title]
 
-            attribute_values = get_food_attributes(title)
+        for attribute in ('calories', 'protein', 'fat', 'carbs'):
 
-            if attribute_values is None:
-                raise exceptions.CatalogEntryNotFound(title)
+            value = round(grams * attribute_values[attribute] / 100)
 
-            for attribute in ('calories', 'protein', 'fat', 'carbs'):
+            food['total'][attribute] += value
 
-                value = round(grams * attribute_values[attribute] / 100)
-
-                food['total'][attribute] += value
-
-                total[attribute] += value
-
-        except exceptions.CatalogEntryNotFound as exception:
-
-            print(exception.message)
+            total[attribute] += value
 
     foods = sorted(foods, key=lambda x: x['total']['calories'], reverse=True)
 
@@ -261,9 +269,7 @@ def run():
     profile = get_yaml_file_data('profile')
     journal = get_yaml_file_data('journal')
     weights = get_yaml_file_data('weights')
-
     catalog = get_yaml_file_data('catalog')
-    catalog = CaseInsensitiveDict(catalog)
 
     date = args['date'] if args.get('date') is not None else datetime.datetime.today().strftime('%d.%m.%Y')
 

@@ -4,11 +4,11 @@ import datetime
 import exceptions
 
 
-def get_calories_limit(profile, weights):
+def get_calories_limit(profile: dict, weights: dict) -> int:
 
-    def get_calculated_daily_calories_limit():
+    def get_calculated_daily_calories_limit() -> int:
 
-        def get_basal_metabolic_rate():
+        def get_basal_metabolic_rate() -> int:
 
             def get_body_weight() -> float:
 
@@ -19,7 +19,7 @@ def get_calories_limit(profile, weights):
 
                 return float(body_weight)
 
-            def get_age():
+            def get_age() -> int:
 
                 days_in_year = 365.2425
                 days_in_life = (datetime.date.today() - profile['birth_date']).days
@@ -54,22 +54,22 @@ def get_calories_limit(profile, weights):
     return result
 
 
-def get_consumption_for_date(journal_for_date, catalog):
+def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
 
-    def get_food(food_title):
+    def get_food(food_title: str) -> dict:
 
         foods_list = list(filter(lambda x: x['title'] == food_title, foods))
 
         return foods_list[0] if len(foods_list) > 0 else None
 
-    def get_food_template(food_title):
+    def get_food_template(food_title: str) -> dict:
 
         return {
             'title': food_title,
             'total': get_total_template()
         }
 
-    def get_total_template():
+    def get_total_template() -> dict:
 
         return {
             'calories': 0,
@@ -78,7 +78,7 @@ def get_consumption_for_date(journal_for_date, catalog):
             'carbs': 0,
         }
 
-    def get_food_title_from_catalog(food_title):
+    def get_food_title_from_catalog(food_title: str) -> dict:
 
         result = None
 
@@ -94,7 +94,7 @@ def get_consumption_for_date(journal_for_date, catalog):
 
         return result
 
-    def get_aggregates_of_journal_for_date():
+    def get_aggregates_of_journal_for_date() -> dict:
 
         result = {}
 
@@ -153,7 +153,7 @@ def get_consumption_for_date(journal_for_date, catalog):
     return foods, total
 
 
-def get_yaml_data(yaml_filepath):
+def get_yaml_data(yaml_filepath: str) -> dict:
 
     with open(yaml_filepath, encoding='utf-8-sig') as yaml_file:
         result = yaml.safe_load(yaml_file)
@@ -176,7 +176,7 @@ def get_args() -> dict:
 
 def run():
 
-    def get_food_offset():
+    def get_food_offset() -> int:
 
         result = 0
 
@@ -189,7 +189,7 @@ def run():
 
         return result + data_offset
 
-    def print_table_row(food_value, calories_value, protein_value, fat_value, carbs_value):
+    def print_table_row(food_value: str, calories_value: str, protein_value: str, fat_value: str, carbs_value: str):
 
         food_value = food_value.ljust(food_offset)
         calories_value = str(calories_value).ljust(data_offset)
@@ -201,7 +201,7 @@ def run():
 
     def print_nutrients_balance():
 
-        def percent(value):
+        def percent(value: int) -> str:
 
             if nutrients_total > 0:
                 result = round(value * 100 / nutrients_total)
@@ -212,7 +212,7 @@ def run():
 
             return result
 
-        def default_percent(value):
+        def default_percent(value: str) -> str:
 
             return '{}%'.format(value)
 
@@ -243,7 +243,7 @@ def run():
 
         print(message)
 
-    def get_yaml_file_data(arg):
+    def get_yaml_file_data(arg: str) -> dict:
 
         yaml_filepath = args.get(arg)
 

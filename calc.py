@@ -153,14 +153,6 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
     return foods, total
 
 
-def get_yaml_data(yaml_filepath: str) -> dict:
-
-    with open(yaml_filepath, encoding='utf-8-sig') as yaml_file:
-        result = yaml.safe_load(yaml_file)
-
-    return result
-
-
 def get_args() -> dict:
 
     parser = argparse.ArgumentParser()

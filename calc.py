@@ -102,6 +102,11 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
 
             try:
 
+                is_comment = type(entry) is str
+
+                if is_comment:
+                    continue
+
                 entry_title = tuple(entry)[0]
 
                 entry_title_from_catalog = get_food_title_from_catalog(entry_title)

@@ -1,11 +1,33 @@
 import yaml
-import argparse
 import datetime
-import exceptions
+import py_menu
+
+
+class CatalogEntryNotFound(Exception):
+    pass
+
+    def __init__(self, entry_title):
+
+        self.message = "Catalog's entry \"{}\" is not found.".format(entry_title)
+
+        super().__init__(self.message)
+
+
+class OverriddenMenu(py_menu.Menu):
+    """
+    The basic class is overridden only to remove dollar symbols
+    from the message about invalid option.
+    """
+
+    def get_choice(self):
+        while True:
+            choice = py_menu.cin(default="q").lower()
+            if choice in self.valid_options:
+                return choice
+            py_menu.print2("Invalid option! Try again.")
 
 
 def get_calories_limit(profile: dict, weights: dict) -> int:
-
     def get_calculated_daily_calories_limit() -> int:
 
         def get_basal_metabolic_rate() -> int:
@@ -55,7 +77,6 @@ def get_calories_limit(profile: dict, weights: dict) -> int:
 
 
 def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
-
     def get_food(food_title: str) -> dict:
 
         foods_list = list(filter(lambda x: x['title'] == food_title, foods))
@@ -146,7 +167,6 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
         attribute_values = catalog[title]
 
         for attribute in ('calories', 'protein', 'fat', 'carbs'):
-
             value = round(grams * attribute_values[attribute] / 100)
 
             food['total'][attribute] += value
@@ -158,21 +178,7 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
     return foods, total
 
 
-def get_args() -> dict:
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--profile', type=str, help='a path to the profile file')
-    parser.add_argument('--journal', type=str, help='a path to the journal file')
-    parser.add_argument('--catalog', type=str, help='a path to the catalog file')
-    parser.add_argument('--weights', type=str, help='a path to the weights file')
-    parser.add_argument('--date', type=str, help='a particular date to calculate consumption statistics')
-
-    return vars(parser.parse_args())
-
-
 def run():
-
     def get_food_offset() -> int:
 
         result = 0
@@ -242,10 +248,7 @@ def run():
 
     def get_yaml_file_data(arg: str) -> dict:
 
-        yaml_filepath = args.get(arg)
-
-        if yaml_filepath is None:
-            yaml_filepath = '{}.yaml'.format(arg)
+        yaml_filepath = '{}.yaml'.format(arg)
 
         result = None
 
@@ -261,14 +264,12 @@ def run():
 
         return result
 
-    args = get_args()
-
     profile = get_yaml_file_data('profile')
     journal = get_yaml_file_data('journal')
     weights = get_yaml_file_data('weights')
     catalog = get_yaml_file_data('catalog')
 
-    date = args['date'] if args.get('date') is not None else datetime.datetime.today().strftime('%d.%m.%Y')
+    date = datetime.datetime.today().strftime('%d.%m.%Y')
 
     journal_for_date = journal.get(date)
 
@@ -300,6 +301,24 @@ def run():
         print()
         print_calories_balance()
 
+    else:
+
+        print("There are no records for today!")
+
+    print()
+
+
+def display_menu():
+    splash = \
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
+        '          ~ Food Diary ~           \n' \
+        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+
+    main_menu = OverriddenMenu(header="Pick an option!\n", splash=splash)
+    main_menu.add_option("Display statistics for today", run)
+
+    main_menu.mainloop()
+
 
 if __name__ == '__main__':
-    run()
+    display_menu()

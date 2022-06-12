@@ -178,7 +178,7 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
     return foods, total
 
 
-def run():
+def run(date: str):
     def get_food_offset() -> int:
 
         result = 0
@@ -269,8 +269,6 @@ def run():
     weights = get_yaml_file_data('weights')
     catalog = get_yaml_file_data('catalog')
 
-    date = datetime.datetime.today().strftime('%d.%m.%Y')
-
     journal_for_date = journal.get(date)
 
     if journal_for_date is not None:
@@ -303,7 +301,7 @@ def run():
 
     else:
 
-        print("There are no records for today!")
+        print("There are no records for the provided date!")
 
     print()
 
@@ -315,7 +313,8 @@ def display_menu():
         '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
     main_menu = OverriddenMenu(header="Pick an option!\n", splash=splash)
-    main_menu.add_option("Display statistics for today", run)
+    main_menu.add_option("Display statistics for today", lambda: run(datetime.datetime.today().strftime('%d.%m.%Y')))
+    main_menu.add_option("Display statistics for a date", lambda: run(input("Enter a date: ")))
 
     main_menu.mainloop()
 

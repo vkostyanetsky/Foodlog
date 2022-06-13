@@ -7,7 +7,7 @@ class CatalogEntryNotFound(Exception):
     pass
 
     def __init__(self, entry_title):
-        self.message = "Catalog's entry \"{}\" is not found.".format(entry_title)
+        self.message = f"Catalog's entry \"{entry_title}\" is not found."
 
         super().__init__(self.message)
 
@@ -216,7 +216,7 @@ def run(date: str):
 
         def default_percent(value: str) -> str:
 
-            return '{}%'.format(value)
+            return f"{value}%"
 
         nutrients_total = total['protein'] + total['fat'] + total['carbs']
 
@@ -247,7 +247,7 @@ def run(date: str):
 
     def get_yaml_file_data(arg: str) -> dict:
 
-        yaml_filepath = '{}.yaml'.format(arg)
+        yaml_filepath = f"{arg}.yaml"
 
         result = None
 
@@ -258,7 +258,7 @@ def run(date: str):
 
         except FileNotFoundError:
 
-            print("File is not found: {}".format(yaml_filepath))
+            print(f"File is not found: {yaml_filepath}")
             exit(1)
 
         return result

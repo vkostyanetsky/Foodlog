@@ -178,6 +178,7 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
 
 
 def run(date: str):
+
     def get_food_offset() -> int:
 
         result = 0
@@ -305,6 +306,30 @@ def run(date: str):
     print()
 
 
+def get_date_format():
+    return "%d.%m.%Y"
+
+
+def display_statistics_for_today():
+
+    date_format = get_date_format()
+    date = datetime.datetime.today().strftime(date_format)
+
+    run(date)
+
+
+def display_statistics_for_date():
+
+    date_format = get_date_format()
+    default_date = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime(date_format)
+    date = input(f"Enter a date (default is {default_date}): ")
+
+    if not date:
+        date = default_date
+
+    run(date)
+
+
 def display_menu():
     splash = \
         '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
@@ -312,8 +337,8 @@ def display_menu():
         '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
     main_menu = OverriddenMenu(header="Pick an option!\n", splash=splash)
-    main_menu.add_option("Display statistics for today", lambda: run(datetime.datetime.today().strftime("%d.%m.%Y")))
-    main_menu.add_option("Display statistics for a date", lambda: run(input("Enter a date: ")))
+    main_menu.add_option("Display statistics for today", display_statistics_for_today)
+    main_menu.add_option("Display statistics for a date", display_statistics_for_date)
 
     main_menu.mainloop()
 

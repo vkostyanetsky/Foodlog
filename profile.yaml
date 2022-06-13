@@ -10,10 +10,13 @@ calories_limit: 0
 # an individual's basal metabolic rate (BMR).
 #
 # Have a closer look: https://en.wikipedia.org/wiki/Harris–Benedict_equation
+#
+# Please note that the algorithm needs your actual weight to work properly,
+# so you have to keep it up to date using weights.yaml.
 
-birth_date: 1983-12-29    # Birthday in "YYYY-MM-DD" format
+birth_date: 1983-12-29    # Birthday in YYYY-MM-DD format
 height:     184           # Height in centimeters
-sex:        'man'         # Sex (man/woman)
+sex:        man           # Sex (man/woman)
 
 # Activity multiplier.
 # 

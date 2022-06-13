@@ -238,11 +238,11 @@ def run(date: str):
         calories_to_consume = calories_limit - total['calories']
 
         if calories_to_consume >= 0:
-            balance_message = 'balance for today — {}.'.format(calories_to_consume)
+            balance_message = 'balance is {}.'.format(calories_to_consume)
         else:
-            balance_message = 'excess — {}!'.format(calories_to_consume * -1)
+            balance_message = 'excess is {}!'.format(calories_to_consume * -1)
 
-        message = 'Daily calorie intake — {} kcal; {}'.format(calories_limit, balance_message)
+        message = f"Daily calorie intake is {calories_limit} kcal; {balance_message}"
 
         print(message)
 
@@ -301,7 +301,7 @@ def run(date: str):
 
     else:
 
-        print("There are no records for the provided date!")
+        print(f"There are no records for {date}!")
 
     print()
 
@@ -313,7 +313,7 @@ def display_menu():
         '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
     main_menu = OverriddenMenu(header="Pick an option!\n", splash=splash)
-    main_menu.add_option("Display statistics for today", lambda: run(datetime.datetime.today().strftime('%d.%m.%Y')))
+    main_menu.add_option("Display statistics for today", lambda: run(datetime.datetime.today().strftime("%d.%m.%Y")))
     main_menu.add_option("Display statistics for a date", lambda: run(input("Enter a date: ")))
 
     main_menu.mainloop()

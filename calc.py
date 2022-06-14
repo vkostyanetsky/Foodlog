@@ -1,3 +1,4 @@
+import os
 import yaml
 import datetime
 import py_menu
@@ -248,7 +249,7 @@ def run(date: str):
 
     def get_yaml_file_data(arg: str) -> dict:
 
-        yaml_filepath = f"{arg}.yaml"
+        yaml_filepath = os.path.join(current_directory, f"{arg}.yaml")
 
         result = None
 
@@ -263,6 +264,8 @@ def run(date: str):
             exit(1)
 
         return result
+
+    current_directory = os.path.abspath(os.path.dirname(__file__))
 
     profile = get_yaml_file_data('profile')
     journal = get_yaml_file_data('journal')

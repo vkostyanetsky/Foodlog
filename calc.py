@@ -1,7 +1,8 @@
 import os
 import yaml
 import datetime
-import py_menu
+from consolemenu import *
+from consolemenu.items import *
 
 
 class CatalogEntryNotFound(Exception):
@@ -11,20 +12,6 @@ class CatalogEntryNotFound(Exception):
         self.message = f"Catalog's entry \"{entry_title}\" is not found."
 
         super().__init__(self.message)
-
-
-class OverriddenMenu(py_menu.Menu):
-    """
-    The basic class is overridden only to remove dollar symbols
-    from the message about invalid option.
-    """
-
-    def get_choice(self):
-        while True:
-            choice = py_menu.cin(default="q").lower()
-            if choice in self.valid_options:
-                return choice
-            py_menu.print2("Invalid option! Try again.")
 
 
 def get_calories_limit(profile: dict, weights: dict) -> int:
@@ -313,37 +300,47 @@ def get_date_format():
     return "%d.%m.%Y"
 
 
-def display_statistics_for_today():
+def display_statistics_for_today(pu):
 
     date_format = get_date_format()
     date = datetime.datetime.today().strftime(date_format)
 
     run(date)
 
+    pu.enter_to_continue()
 
-def display_statistics_for_date():
+
+def display_statistics_for_date(pu):
 
     date_format = get_date_format()
     default_date = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime(date_format)
-    date = input(f"Enter a date (default is {default_date}): ")
+    result = pu.input(f"Enter a date (default is {default_date}): ")
 
-    if not date:
+    if result.input_string:
+        date = result.input_string
+    else:
         date = default_date
 
     run(date)
+    pu.enter_to_continue()
 
 
 def display_menu():
-    splash = \
-        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
-        '          ~ Food Diary ~           \n' \
-        '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+    """
+    Builds and then displays main menu of the application.
+    """
 
-    main_menu = OverriddenMenu(header="Pick an option!\n", splash=splash)
-    main_menu.add_option("Display statistics for today", display_statistics_for_today)
-    main_menu.add_option("Display statistics for a date", display_statistics_for_date)
+    pu = PromptUtils(Screen())
 
-    main_menu.mainloop()
+    menu = ConsoleMenu("Food Diary")
+
+    function_item1 = FunctionItem("Display statistics for today", display_statistics_for_today, [pu])
+    function_item2 = FunctionItem("Display statistics for a date", display_statistics_for_date, [pu])
+
+    menu.append_item(function_item1)
+    menu.append_item(function_item2)
+
+    menu.show()
 
 
 if __name__ == '__main__':

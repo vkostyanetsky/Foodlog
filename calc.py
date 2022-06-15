@@ -300,10 +300,18 @@ def get_date_format():
     return "%d.%m.%Y"
 
 
-def display_daily_statistics(pu):
-
+def display_statistics_for_today(pu):
     date_format = get_date_format()
-    default_date = datetime.datetime.today().strftime(date_format)
+    date = datetime.datetime.today().strftime(date_format)
+
+    run(date)
+    pu.enter_to_continue()
+
+
+def display_statistics_for_date(pu):
+    date_format = get_date_format()
+    default_date = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime(date_format)
+
     result = pu.input("Enter a date: ", default=default_date)
 
     if result.input_string:
@@ -324,9 +332,11 @@ def display_menu():
 
     menu = ConsoleMenu("Food Diary", "Motivation is what gets you started. Habit is what keeps you going. \n- Jim Ryin")
 
-    menu_item_1 = FunctionItem("Display daily statistics", display_daily_statistics, [pu])
+    menu_item_1 = FunctionItem("Display statistics for today", display_statistics_for_today, [pu])
+    menu_item_2 = FunctionItem("Display statistics for a date", display_statistics_for_date, [pu])
 
     menu.append_item(menu_item_1)
+    menu.append_item(menu_item_2)
 
     menu.show()
 

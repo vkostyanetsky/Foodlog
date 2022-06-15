@@ -332,7 +332,7 @@ def display_menu():
 
     menu = ConsoleMenu("Food Diary", "Motivation is what gets you started. Habit is what keeps you going. \n- Jim Ryin")
 
-    menu_item_1 = FunctionItem("Display statistics for today", display_statistics_for_today, [pu])
+    menu_item_1 = FunctionItem("Display today's statistics", display_statistics_for_today, [pu])
     menu_item_2 = FunctionItem("Display statistics for a date", display_statistics_for_date, [pu])
 
     menu.append_item(menu_item_1)

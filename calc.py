@@ -325,113 +325,6 @@ def display_statistics_for_date(pu):
     pu.enter_to_continue()
 
 
-def get_quote() -> str:
-
-    quotes = [
-        "Motivation is what gets you started. Habit is what keeps you going."
-        "\n— Jim Ryin",
-
-        "All progress takes place outside the comfort zone."
-        "\n— Michael John Bobak",
-
-        "Do something today that your future self will thank you for."
-        "\n— Sean Patrick Flanery",
-
-        "Success is usually the culmination of controlling failure."
-        "\n— Sly Stallone",
-
-        "Your health account, your bank account, they’re the same thing. The more you put in,"
-        "the more you can take out."
-        "\n— Jack LaLanne",
-
-        "Don’t say ‘I can’t.’ Say, ‘I presently struggle with’."
-        "\n— Tony Horton",
-
-        "We are what we repeatedly do. Excellence then is not an act but a habit."
-        "\n— Aristotle",
-
-        "Your body can stand almost anything. It’s your mind that you have to convince."
-        "\n— Andrew Murphy",
-
-        "Ability is what you’re capable of doing. Motivation determines what you do."
-        "Attitude determines how well you do it."
-        "\n— Lou Holtz",
-
-        "The secret of getting ahead is getting started."
-        "\n— Mark Twain",
-
-        "You can either suffer the pain of discipline or the pain of regret."
-        "\n— Jim Rohn",
-
-        "The mind is the most important part of achieving any fitness goal."
-        "Mental change always comes before physical change."
-        "\n— Matt McGorry",
-
-        "It always seems impossible until it is done."
-        "\n— Nelson Mandela"
-
-        "No pain, no gain."
-        "\n— Unknown"        
-        
-        "The difference between the impossible and the possible lies in a person’s determination."
-        "\n— Tommy Lasorda",
-
-        "Increased physical activity enhances positive energy."
-        "\n— Lailah Gifty Akita",
-
-        "Once you learn to quit, it becomes a habit."
-        "\n— Vince Lombardi Jr",
-
-        "All progress takes place outside the comfort zone."
-        "\n— Michal Joan Bobak",
-
-        "Look in the mirror. That’s your competition."
-        "\n— John Assaraf",
-
-        "The only place where success comes before work is in the dictionary."
-        "\n— Vidal Sassoon",
-
-        "The human body is the best picture of the human soul."
-        "\n— Ludwig Wittgenstein",
-
-        "Whether you think you can, or you think you can’t, you’re right."
-        "\n— Henry Ford",
-
-        "Success is what comes after your stop making excuses."
-        "\n— Luis Galarza",
-
-        "Discipline is the bridge between goals and accomplishment."
-        "\n— Jim Rohn",
-
-        "The pain you feel today will be the strength you feel tomorrow."
-        "\n— Arnold Schwarzenegger",
-
-        "Setting goals is the first step into turning the invisible into the visible."
-        "\n— Tony Robbins",
-
-        "Get comfortable with being uncomfortable!"
-        "\n— Jillian Michaels",
-
-        "Confidence comes from discipline and training."
-        "\n— Robert Kiyosaki",
-
-        "Nothing will work unless you do."
-        "\n— John Wooden",
-
-        "No matter how slow you go you’re still lapping everyone on the couch."
-        "\n— Unknown",
-
-        "No matter how many mistakes you make or how slow you progress,"
-        "you are still way ahead of everyone who isn’t trying."
-        "\n— Tony Robbins",
-
-        "If it doesn’t challenge you, it won’t change you."
-        "\n— Fred Devito",
-    ]
-
-    return random.choice(quotes)
-
-
 def display_menu():
     """
     Builds and then displays main menu of the application.
@@ -439,7 +332,10 @@ def display_menu():
 
     pu = PromptUtils(Screen())
 
-    menu = ConsoleMenu("Food Diary", get_quote())
+    menu = ConsoleMenu(
+        "Food Diary",
+        "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryin"
+    )
 
     menu_item_1 = FunctionItem("Display today's statistics", display_statistics_for_today, [pu])
     menu_item_2 = FunctionItem("Display statistics for a date", display_statistics_for_date, [pu])

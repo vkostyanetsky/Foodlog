@@ -375,7 +375,7 @@ def display_menu():
 
     menu = ConsoleMenu(
         "Food Diary",
-        "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryin"
+        "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryun"
     )
 
     menu_item_1 = FunctionItem("Display today's statistics", display_statistics_for_today, [pu])

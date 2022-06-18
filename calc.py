@@ -374,7 +374,7 @@ def display_menu():
     pu = PromptUtils(Screen())
 
     menu = ConsoleMenu(
-        "Food Diary",
+        "FOOD DIARY",
         "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryun"
     )
 

@@ -1,6 +1,5 @@
 import os
 import yaml
-import random
 import datetime
 
 from consolemenu import *

@@ -1,5 +1,6 @@
 import os
 import yaml
+import yaml.parser
 import datetime
 
 from consolemenu import *
@@ -273,7 +274,7 @@ def run(date_string: str):
 
         yaml_filepath = os.path.join(current_directory, f"{arg}.yaml")
 
-        result = None
+        result = {}
 
         try:
 
@@ -283,7 +284,10 @@ def run(date_string: str):
         except FileNotFoundError:
 
             print(f"File is not found: {yaml_filepath}")
-            exit(1)
+
+        except yaml.parser.ParserError:
+
+            print(f"Unable to parse {arg}!")
 
         return result
 

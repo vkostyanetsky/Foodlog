@@ -27,7 +27,7 @@ apple:
 Then you open journal.yaml and write the name of food you just added to the catalog and its weights in grams:
 
 ```yaml
-27.04.2022:
+2022-04-27:
 
   - apple: 114
   - apple: 129
@@ -36,13 +36,13 @@ Then you open journal.yaml and write the name of food you just added to the cata
 First line here is a current date. The journal may consist of many of them. For example:
 
 ```yaml
-26.04.2022:
+2022-04-26:
   
   - apple: 120  
   - bread: 403
   - pizza: 356
 
-27.04.2022:
+2022-04-27:
 
   - apple: 114
   - apple: 129

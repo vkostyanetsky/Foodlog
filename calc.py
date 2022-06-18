@@ -24,7 +24,7 @@ def get_calories_limit(profile: dict, weights: dict) -> int:
             def get_body_weight() -> float:
 
                 if len(weights) > 0:
-                    body_weight = list(weights[-1].items())[0][1]
+                    body_weight = sorted(weights.items(), key=lambda x: x[0])[-1][1]
                 else:
                     body_weight = 0
 
@@ -167,7 +167,7 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
     return foods, total
 
 
-def run(date: str):
+def run(date_string: str):
 
     def get_food_offset() -> int:
 
@@ -236,6 +236,34 @@ def run(date: str):
 
         print(message)
 
+    def print_weight_dynamic():
+
+        def get_yesterday_weight():
+            yesterday_date = get_yesterday_date(date)
+            yesterday_weight = weights.get(yesterday_date)
+
+            return str(yesterday_weight) if yesterday_weight is not None else "?"
+
+        def get_today_weight():
+            today_date = date
+            today_weight = weights.get(today_date)
+
+            return str(today_weight) if today_weight is not None else "?"
+
+        def get_tomorrow_weight():
+            tomorrow_date = get_tomorrow_date(date)
+            tomorrow_weight = weights.get(tomorrow_date)
+
+            return str(tomorrow_weight) if tomorrow_weight is not None else "?"
+
+        weight_message = "Body weight yesterday, today and tomorrow: {} / {} / {}".format(
+            get_yesterday_weight(),
+            get_today_weight(),
+            get_tomorrow_weight()
+        )
+
+        print(weight_message)
+
     def get_yaml_file_data(arg: str) -> dict:
 
         yaml_filepath = os.path.join(current_directory, f"{arg}.yaml")
@@ -260,6 +288,11 @@ def run(date: str):
     journal = get_yaml_file_data('journal')
     weights = get_yaml_file_data('weights')
     catalog = get_yaml_file_data('catalog')
+
+    date = datetime.datetime.strptime(
+        date_string,
+        get_date_format()
+    ).date()
 
     journal_for_date = journal.get(date)
 
@@ -291,20 +324,23 @@ def run(date: str):
         print()
         print_calories_balance()
 
+        print()
+        print_weight_dynamic()
+
     else:
 
-        print(f"There are no records for {date}!")
+        print(f"There are no records for {date_string}!")
 
     print()
 
 
 def get_date_format():
-    return "%d.%m.%Y"
+    return "%Y-%m-%d"
 
 
 def display_statistics_for_today(pu):
     date_format = get_date_format()
-    date = datetime.datetime.today().strftime(date_format)
+    date = datetime.date.today().strftime(date_format)
 
     run(date)
     pu.enter_to_continue()
@@ -312,7 +348,7 @@ def display_statistics_for_today(pu):
 
 def display_statistics_for_date(pu):
     date_format = get_date_format()
-    default_date = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime(date_format)
+    default_date = get_yesterday_date().strftime(date_format)
 
     result = pu.input("Enter a date: ", default=default_date)
 
@@ -344,6 +380,14 @@ def display_menu():
     menu.append_item(menu_item_2)
 
     menu.show()
+
+
+def get_yesterday_date(date: datetime.date = datetime.date.today()):
+    return date - datetime.timedelta(days=1)
+
+
+def get_tomorrow_date(date: datetime.date = datetime.date.today()):
+    return date + datetime.timedelta(days=1)
 
 
 if __name__ == '__main__':

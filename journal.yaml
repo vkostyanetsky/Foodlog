@@ -2,12 +2,12 @@
 # Branches here are particular dates (DD.MM.YYYY), and leaves are food names
 # and weight in grams.
 
-26.04.2022:
+2022-04-26:
 
   - apple: 130
   - sausages: 160
 
-27.04.2022:
+2022-04-27:
 
   - apple: 200
   - sausage: 300

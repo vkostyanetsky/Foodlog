@@ -312,6 +312,8 @@ def run(date_string: str):
         data_offset = 15
         food_offset = get_food_offset()
 
+        print()
+
         print_table_row('FOOD', 'CALORIES', 'PROTEIN', 'FAT', 'CARBS')
         print()
 

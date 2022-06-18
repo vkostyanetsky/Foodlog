@@ -239,30 +239,36 @@ def run(date_string: str):
     def print_weight_dynamic():
 
         def get_yesterday_weight():
-            yesterday_date = get_yesterday_date(date)
-            yesterday_weight = weights.get(yesterday_date)
+            weight_date = get_yesterday_date(date)
 
-            return str(yesterday_weight) if yesterday_weight is not None else "?"
+            return weights.get(weight_date)
 
         def get_today_weight():
-            today_date = date
-            today_weight = weights.get(today_date)
+            weight_date = date
 
-            return str(today_weight) if today_weight is not None else "?"
+            return weights.get(weight_date)
 
         def get_tomorrow_weight():
-            tomorrow_date = get_tomorrow_date(date)
-            tomorrow_weight = weights.get(tomorrow_date)
+            weight_date = get_tomorrow_date(date)
 
-            return str(tomorrow_weight) if tomorrow_weight is not None else "?"
+            return weights.get(weight_date)
 
-        weight_message = "Body weight yesterday, today and tomorrow: {} / {} / {}".format(
-            get_yesterday_weight(),
-            get_today_weight(),
-            get_tomorrow_weight()
-        )
+        yesterday_weight = get_yesterday_weight()
+        today_weight = get_today_weight()
+        tomorrow_weight = get_tomorrow_weight()
 
-        print(weight_message)
+        if yesterday_weight or today_weight or tomorrow_weight:
+
+            print("Body weight dynamic:")
+
+            if yesterday_weight:
+                print(f"- yesterday    {yesterday_weight}")
+
+            if today_weight:
+                print(f"- today        {today_weight}")
+
+            if tomorrow_weight:
+                print(f"- tomorrow     {tomorrow_weight}")
 
     def get_yaml_file_data(arg: str) -> dict:
 

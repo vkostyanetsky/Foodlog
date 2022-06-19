@@ -10,7 +10,7 @@ So I decide:
 
 ![Fine, I'll do it myself](tanos.png)
 
-## 🧐 How to use it? 
+## 🤔 How to use it? 
 
 There are two YAML files: [catalog](catalog.yaml) of food you used to consume and [journal](journal.yaml) of products you have eaten.
 
@@ -76,10 +76,10 @@ Target ranges                                    45%             25%            
 Daily calorie intake — 1802 kcal; excess — 223!
 ```
 
-## 🫖 How to set up?
+## ☺ Well, how to set up this for me?
 
 You can find all configurable parameters (the calories limit, target ranges of macronutrients etc.) in the [profile.yaml](profile.yaml).  
 
-## 🍫 Which requirements does it have?
+## 🧐 Which requirements does it have?
 
 All dependencies are listed in [requirements.txt](requirements.txt).

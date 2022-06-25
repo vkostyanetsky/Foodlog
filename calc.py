@@ -298,10 +298,15 @@ def run(date_string: str):
     weights = get_yaml_file_data('weights')
     catalog = get_yaml_file_data('catalog')
 
-    date = datetime.datetime.strptime(
-        date_string,
-        get_date_format()
-    ).date()
+    try:
+        date = datetime.datetime.strptime(
+            date_string,
+            get_date_format()
+        ).date()
+    except ValueError:
+        print(f'Unable to convert "{date_string}" to a date.')
+        print()
+        return
 
     journal_for_date = journal.get(date)
 

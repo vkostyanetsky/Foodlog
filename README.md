@@ -48,10 +48,10 @@ First line here is a current date. The journal may consist of many of them. For 
   - apple: 129
 ```
 
-Having catalog & journal both filled, it's possible to execute [calc.py](calc.py) and see how many calories and macronutrients you've consumed:
+Having catalog & journal both filled, it's possible to execute [diary.py](diary.py) and see how many calories and macronutrients you've consumed:
 
 ```
-py calc.py
+py diary.py
 ```
 
 For instance, script output may look like this:

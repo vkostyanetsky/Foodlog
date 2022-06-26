@@ -37,7 +37,9 @@ activity_multiplier:  1.35
 
 caloric_deficit: 25
 
-# Macronutrient ranges in percents of your daily income.
+# MACRONUTRIENT RANGES
+#
+# Specify in percents of your macronutrient income.
 
 protein_percent:  45
 fat_percent:      25

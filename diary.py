@@ -3,8 +3,8 @@ import os
 
 import yaml
 import yaml.parser
-from consolemenu import *
-from consolemenu.items import *
+from consolemenu import ConsoleMenu, PromptUtils, Screen
+from consolemenu.items import FunctionItem
 
 
 class CatalogEntryNotFound(Exception):
@@ -393,7 +393,8 @@ def display_menu():
 
     menu = ConsoleMenu(
         "FOOD DIARY",
-        "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryun",
+        "Motivation is what gets you started. "
+        "Habit is what keeps you going.\n— Jim Ryun",
     )
 
     menu_item_1 = FunctionItem(

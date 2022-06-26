@@ -16,53 +16,64 @@ class CatalogEntryNotFound(Exception):
         super().__init__(self.message)
 
 
-def get_calories_limit(profile: dict, weights: dict) -> int:
-    def get_calculated_daily_calories_limit() -> int:
-        def get_basal_metabolic_rate() -> int:
-            def get_body_weight() -> float:
+class CaloriesLimitCalculator:
+    __profile: dict
+    __weights: dict
 
-                if len(weights) > 0:
-                    body_weight = sorted(weights.items(), key=lambda x: x[0])[-1][1]
-                else:
-                    body_weight = 0
+    def __init__(self, profile: dict, weights: dict):
+        self.__profile = profile
+        self.__weights = weights
 
-                return float(body_weight)
+    def get_limit(self) -> int:
 
-            def get_age() -> int:
+        if self.__profile["calories_limit"] > 0:
+            result = self.__profile["calories_limit"]
+        else:
+            result = self.__get_calculated_daily_calories_limit()
 
-                days_in_year = 365.2425
-                days_in_life = (datetime.date.today() - profile["birth_date"]).days
+        return result
 
-                return int(days_in_life / days_in_year)
+    def __get_calculated_daily_calories_limit(self) -> int:
 
-            weight = get_body_weight()
-            height = profile["height"]
+        basal_metabolic_rate = self.__get_basal_metabolic_rate()
 
-            age = get_age()
-            bmr = (
-                (10 * weight) + (6.25 * height) - (5 * age)
-            )  # https://en.wikipedia.org/wiki/Harris–Benedict_equation
-
-            if profile["sex"] == "man":
-                bmr += 5
-            else:
-                bmr -= 161
-
-            return bmr
-
-        basal_metabolic_rate = get_basal_metabolic_rate()
-
-        calories = basal_metabolic_rate * profile["activity_multiplier"]
-        shortage = calories * profile["caloric_deficit"] / 100
+        calories = basal_metabolic_rate * self.__profile["activity_multiplier"]
+        shortage = calories * self.__profile["caloric_deficit"] / 100
 
         return round(calories - shortage)
 
-    if profile["calories_limit"] > 0:
-        result = profile["calories_limit"]
-    else:
-        result = get_calculated_daily_calories_limit()
+    def __get_body_weight(self) -> float:
 
-    return result
+        if len(self.__weights) > 0:
+            body_weight = sorted(self.__weights.items(), key=lambda x: x[0])[-1][1]
+        else:
+            body_weight = 0
+
+        return float(body_weight)
+
+    def __get_age(self) -> int:
+
+        days_in_year = 365.2425
+        days_in_life = (datetime.date.today() - self.__profile["birth_date"]).days
+
+        return int(days_in_life / days_in_year)
+
+    def __get_basal_metabolic_rate(self) -> int:
+
+        weight = self.__get_body_weight()
+        height = self.__profile["height"]
+
+        age = self.__get_age()
+        bmr = (
+                (10 * weight) + (6.25 * height) - (5 * age)
+        )  # https://en.wikipedia.org/wiki/Harris–Benedict_equation
+
+        if self.__profile["sex"] == "man":
+            bmr += 5
+        else:
+            bmr -= 161
+
+        return bmr
 
 
 def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
@@ -233,7 +244,7 @@ def run(date_string: str):
 
     def print_calories_balance():
 
-        calories_limit = get_calories_limit(profile, weights)
+        calories_limit = CaloriesLimitCalculator(profile, weights).get_limit()
         calories_to_consume = calories_limit - total["calories"]
 
         if calories_to_consume >= 0:

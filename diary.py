@@ -11,16 +11,14 @@ class CatalogEntryNotFound(Exception):
     pass
 
     def __init__(self, entry_title):
-        self.message = f"Catalog's entry \"{entry_title}\" is not found."
+        self.message = f'Catalog\'s entry "{entry_title}" is not found.'
 
         super().__init__(self.message)
 
 
 def get_calories_limit(profile: dict, weights: dict) -> int:
     def get_calculated_daily_calories_limit() -> int:
-
         def get_basal_metabolic_rate() -> int:
-
             def get_body_weight() -> float:
 
                 if len(weights) > 0:
@@ -33,17 +31,19 @@ def get_calories_limit(profile: dict, weights: dict) -> int:
             def get_age() -> int:
 
                 days_in_year = 365.2425
-                days_in_life = (datetime.date.today() - profile['birth_date']).days
+                days_in_life = (datetime.date.today() - profile["birth_date"]).days
 
                 return int(days_in_life / days_in_year)
 
             weight = get_body_weight()
-            height = profile['height']
+            height = profile["height"]
 
             age = get_age()
-            bmr = (10 * weight) + (6.25 * height) - (5 * age)  # https://en.wikipedia.org/wiki/Harris–Benedict_equation
+            bmr = (
+                (10 * weight) + (6.25 * height) - (5 * age)
+            )  # https://en.wikipedia.org/wiki/Harris–Benedict_equation
 
-            if profile['sex'] == 'man':
+            if profile["sex"] == "man":
                 bmr += 5
             else:
                 bmr -= 161
@@ -52,13 +52,13 @@ def get_calories_limit(profile: dict, weights: dict) -> int:
 
         basal_metabolic_rate = get_basal_metabolic_rate()
 
-        calories = basal_metabolic_rate * profile['activity_multiplier']
-        shortage = calories * profile['caloric_deficit'] / 100
+        calories = basal_metabolic_rate * profile["activity_multiplier"]
+        shortage = calories * profile["caloric_deficit"] / 100
 
         return round(calories - shortage)
 
-    if profile['calories_limit'] > 0:
-        result = profile['calories_limit']
+    if profile["calories_limit"] > 0:
+        result = profile["calories_limit"]
     else:
         result = get_calculated_daily_calories_limit()
 
@@ -68,24 +68,21 @@ def get_calories_limit(profile: dict, weights: dict) -> int:
 def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
     def get_food(food_title: str) -> dict:
 
-        foods_list = list(filter(lambda x: x['title'] == food_title, foods))
+        foods_list = list(filter(lambda x: x["title"] == food_title, foods))
 
         return foods_list[0] if len(foods_list) > 0 else None
 
     def get_food_template(food_title: str) -> dict:
 
-        return {
-            'title': food_title,
-            'total': get_total_template()
-        }
+        return {"title": food_title, "total": get_total_template()}
 
     def get_total_template() -> dict:
 
         return {
-            'calories': 0,
-            'protein': 0,
-            'fat': 0,
-            'carbs': 0,
+            "calories": 0,
+            "protein": 0,
+            "fat": 0,
+            "carbs": 0,
         }
 
     def get_food_title_from_catalog(food_title: str) -> dict:
@@ -155,20 +152,19 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
 
         attribute_values = catalog[title]
 
-        for attribute in ('calories', 'protein', 'fat', 'carbs'):
+        for attribute in ("calories", "protein", "fat", "carbs"):
             value = round(grams * attribute_values[attribute] / 100)
 
-            food['total'][attribute] += value
+            food["total"][attribute] += value
 
             total[attribute] += value
 
-    foods = sorted(foods, key=lambda x: x['total']['calories'], reverse=True)
+    foods = sorted(foods, key=lambda x: x["total"]["calories"], reverse=True)
 
     return foods, total
 
 
 def run(date_string: str):
-
     def get_food_offset() -> int:
 
         result = 0
@@ -182,7 +178,13 @@ def run(date_string: str):
 
         return result + data_offset
 
-    def print_table_row(food_value: str, calories_value: str, protein_value: str, fat_value: str, carbs_value: str):
+    def print_table_row(
+        food_value: str,
+        calories_value: str,
+        protein_value: str,
+        fat_value: str,
+        carbs_value: str,
+    ):
 
         food_value = food_value.ljust(food_offset)
         calories_value = str(calories_value).ljust(data_offset)
@@ -193,7 +195,6 @@ def run(date_string: str):
         print(food_value, calories_value, protein_value, fat_value, carbohydrates_value)
 
     def print_nutrients_balance():
-
         def percent(value: int) -> str:
 
             if nutrients_total > 0:
@@ -201,7 +202,7 @@ def run(date_string: str):
             else:
                 result = 0
 
-            result = str(result) + '%'
+            result = str(result) + "%"
 
             return result
 
@@ -209,35 +210,42 @@ def run(date_string: str):
 
             return f"{value}%"
 
-        nutrients_total = total['protein'] + total['fat'] + total['carbs']
+        nutrients_total = total["protein"] + total["fat"] + total["carbs"]
 
-        protein_percent = percent(total['protein'])
-        fat_percent = percent(total['fat'])
-        carbs_percent = percent(total['carbs'])
+        protein_percent = percent(total["protein"])
+        fat_percent = percent(total["fat"])
+        carbs_percent = percent(total["carbs"])
 
-        default_protein_percent = default_percent(profile['protein_percent'])
-        default_fat_percent = default_percent(profile['fat_percent'])
-        default_carbs_percent = default_percent(profile['carbs_percent'])
+        default_protein_percent = default_percent(profile["protein_percent"])
+        default_fat_percent = default_percent(profile["fat_percent"])
+        default_carbs_percent = default_percent(profile["carbs_percent"])
 
-        print_table_row('Balance today', '', protein_percent, fat_percent, carbs_percent)
-        print_table_row('Target ranges', '', default_protein_percent, default_fat_percent, default_carbs_percent)
+        print_table_row(
+            "Balance today", "", protein_percent, fat_percent, carbs_percent
+        )
+        print_table_row(
+            "Target ranges",
+            "",
+            default_protein_percent,
+            default_fat_percent,
+            default_carbs_percent,
+        )
 
     def print_calories_balance():
 
         calories_limit = get_calories_limit(profile, weights)
-        calories_to_consume = calories_limit - total['calories']
+        calories_to_consume = calories_limit - total["calories"]
 
         if calories_to_consume >= 0:
-            balance_message = 'balance is {}.'.format(calories_to_consume)
+            balance_message = "balance is {}.".format(calories_to_consume)
         else:
-            balance_message = 'excess is {}!'.format(calories_to_consume * -1)
+            balance_message = "excess is {}!".format(calories_to_consume * -1)
 
         message = f"Daily calorie intake is {calories_limit} kcal; {balance_message}"
 
         print(message)
 
     def print_weight_dynamic():
-
         def get_yesterday_weight():
             weight_date = get_yesterday_date(date)
 
@@ -278,7 +286,7 @@ def run(date_string: str):
 
         try:
 
-            with open(yaml_filepath, encoding='utf-8-sig') as yaml_file:
+            with open(yaml_filepath, encoding="utf-8-sig") as yaml_file:
                 result = yaml.safe_load(yaml_file)
 
         except FileNotFoundError:
@@ -293,16 +301,13 @@ def run(date_string: str):
 
     current_directory = os.path.abspath(os.path.dirname(__file__))
 
-    profile = get_yaml_file_data('profile')
-    journal = get_yaml_file_data('journal')
-    weights = get_yaml_file_data('weights')
-    catalog = get_yaml_file_data('catalog')
+    profile = get_yaml_file_data("profile")
+    journal = get_yaml_file_data("journal")
+    weights = get_yaml_file_data("weights")
+    catalog = get_yaml_file_data("catalog")
 
     try:
-        date = datetime.datetime.strptime(
-            date_string,
-            get_date_format()
-        ).date()
+        date = datetime.datetime.strptime(date_string, get_date_format()).date()
     except ValueError:
         print(f'Unable to convert "{date_string}" to a date.')
         print()
@@ -319,20 +324,22 @@ def run(date_string: str):
 
         print()
 
-        print_table_row('FOOD', 'CALORIES', 'PROTEIN', 'FAT', 'CARBS')
+        print_table_row("FOOD", "CALORIES", "PROTEIN", "FAT", "CARBS")
         print()
 
         for entry in foods:
             print_table_row(
-                entry['title'],
-                entry['total']['calories'],
-                entry['total']['protein'],
-                entry['total']['fat'],
-                entry['total']['carbs']
+                entry["title"],
+                entry["total"]["calories"],
+                entry["total"]["protein"],
+                entry["total"]["fat"],
+                entry["total"]["carbs"],
             )
 
         print()
-        print_table_row('TOTAL', total['calories'], total['protein'], total['fat'], total['carbs'])
+        print_table_row(
+            "TOTAL", total["calories"], total["protein"], total["fat"], total["carbs"]
+        )
 
         print()
         print_nutrients_balance()
@@ -386,11 +393,15 @@ def display_menu():
 
     menu = ConsoleMenu(
         "FOOD DIARY",
-        "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryun"
+        "Motivation is what gets you started. Habit is what keeps you going.\n— Jim Ryun",
     )
 
-    menu_item_1 = FunctionItem("Display today's statistics", display_statistics_for_today, [pu])
-    menu_item_2 = FunctionItem("Display statistics for a date", display_statistics_for_date, [pu])
+    menu_item_1 = FunctionItem(
+        "Display today's statistics", display_statistics_for_today, [pu]
+    )
+    menu_item_2 = FunctionItem(
+        "Display statistics for a date", display_statistics_for_date, [pu]
+    )
 
     menu.append_item(menu_item_1)
     menu.append_item(menu_item_2)
@@ -406,5 +417,5 @@ def get_tomorrow_date(date: datetime.date = datetime.date.today()):
     return date + datetime.timedelta(days=1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     display_menu()

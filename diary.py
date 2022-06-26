@@ -1,8 +1,8 @@
+import datetime
 import os
+
 import yaml
 import yaml.parser
-import datetime
-
 from consolemenu import *
 from consolemenu.items import *
 

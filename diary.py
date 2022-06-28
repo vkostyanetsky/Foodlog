@@ -389,19 +389,19 @@ def get_date_format():
     return "%Y-%m-%d"
 
 
-def display_statistics_for_today(pu):
+def display_statistics_for_today(prompt_utils):
     date_format = get_date_format()
     date = datetime.date.today().strftime(date_format)
 
     run(date)
-    pu.enter_to_continue()
+    prompt_utils.enter_to_continue()
 
 
-def display_statistics_for_date(pu):
+def display_statistics_for_date(prompt_utils):
     date_format = get_date_format()
     default_date = get_yesterday_date().strftime(date_format)
 
-    result = pu.input("Enter a date: ", default=default_date)
+    result = prompt_utils.input("Enter a date: ", default=default_date)
 
     if result.input_string:
         date = result.input_string
@@ -409,7 +409,7 @@ def display_statistics_for_date(pu):
         date = default_date
 
     run(date)
-    pu.enter_to_continue()
+    prompt_utils.enter_to_continue()
 
 
 def display_menu():
@@ -417,7 +417,7 @@ def display_menu():
     Builds and then displays main menu of the application.
     """
 
-    pu = PromptUtils(Screen())
+    prompt_utils = PromptUtils(Screen())
 
     menu = ConsoleMenu(
         "FOOD DIARY",
@@ -426,10 +426,10 @@ def display_menu():
     )
 
     menu_item_1 = FunctionItem(
-        "Display today's statistics", display_statistics_for_today, [pu]
+        "Display today's statistics", display_statistics_for_today, [prompt_utils]
     )
     menu_item_2 = FunctionItem(
-        "Display statistics for a date", display_statistics_for_date, [pu]
+        "Display statistics for a date", display_statistics_for_date, [prompt_utils]
     )
 
     menu.append_item(menu_item_1)
@@ -439,10 +439,18 @@ def display_menu():
 
 
 def get_yesterday_date(date: datetime.date = datetime.date.today()):
+    """
+    Calculates a date of yesterday for the given date.
+    """
+
     return date - datetime.timedelta(days=1)
 
 
 def get_tomorrow_date(date: datetime.date = datetime.date.today()):
+    """
+    Calculates a date of tomorrow for the given date.
+    """
+
     return date + datetime.timedelta(days=1)
 
 

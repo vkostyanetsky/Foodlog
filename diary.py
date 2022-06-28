@@ -77,33 +77,33 @@ class CaloriesLimitCalculator:
 
 
 class FoodEnergyCalculator:
-    journal: list
-    catalog: dict
-    foods: list
+    __journal: list
+    __catalog: dict
+    __foods: list
 
     def __init__(self, journal: list, catalog: dict) -> None:
-        self.journal = journal
-        self.catalog = catalog
-        self.foods = []
+        self.__journal = journal
+        self.__catalog = catalog
+        self.__foods = []
 
     def get_food_energy(self) -> tuple:
 
-        total = self.get_total_template()
+        total = self.__get_total_template()
 
-        aggregates = self.get_aggregates_of_journal_for_date()
+        aggregates = self.__get_aggregates_of_journal_for_date()
 
         for aggregate in aggregates:
 
             title = aggregate
             grams = aggregates[aggregate]
 
-            food = self.get_food(title)
+            food = self.__get_food(title)
 
             if food is None:
-                self.foods.append(self.get_food_template(title))
-                food = self.foods[-1]
+                self.__foods.append(self.__get_food_template(title))
+                food = self.__foods[-1]
 
-            attribute_values = self.catalog[title]
+            attribute_values = self.__catalog[title]
 
             for attribute in ("calories", "protein", "fat", "carbs"):
                 value = round(grams * attribute_values[attribute] / 100)
@@ -112,43 +112,33 @@ class FoodEnergyCalculator:
 
                 total[attribute] += value
 
-        self.foods = sorted(
-            self.foods, key=lambda x: x["total"]["calories"], reverse=True
+        self.__foods = sorted(
+            self.__foods, key=lambda x: x["total"]["calories"], reverse=True
         )
 
-        return self.foods, total
+        return self.__foods, total
 
-    def get_food(self, food_title: str) -> dict:
+    def __get_food(self, food_title: str) -> dict:
 
-        foods_list = list(filter(lambda x: x["title"] == food_title, self.foods))
+        foods_list = list(filter(lambda x: x["title"] == food_title, self.__foods))
 
         return foods_list[0] if len(foods_list) > 0 else None
 
-    def get_food_template(self, food_title: str) -> dict:
+    def __get_food_template(self, food_title: str) -> dict:
 
-        return {"title": food_title, "total": self.get_total_template()}
+        return {"title": food_title, "total": self.__get_total_template()}
 
-    @staticmethod
-    def get_total_template() -> dict:
-
-        return {
-            "calories": 0,
-            "protein": 0,
-            "fat": 0,
-            "carbs": 0,
-        }
-
-    def get_food_title_from_catalog(self, food_title: str) -> dict:
+    def __get_food_title_from_catalog(self, food_title: str) -> dict:
 
         result = None
 
-        for catalog_item in self.catalog:
+        for catalog_item in self.__catalog:
 
             if catalog_item.lower() == food_title.lower():
 
-                if type(self.catalog[catalog_item]) == str:
-                    result = self.get_food_title_from_catalog(
-                        self.catalog[catalog_item]
+                if type(self.__catalog[catalog_item]) == str:
+                    result = self.__get_food_title_from_catalog(
+                        self.__catalog[catalog_item]
                     )
                 else:
                     result = catalog_item
@@ -156,11 +146,11 @@ class FoodEnergyCalculator:
 
         return result
 
-    def get_aggregates_of_journal_for_date(self) -> dict:
+    def __get_aggregates_of_journal_for_date(self) -> dict:
 
         result = {}
 
-        for entry in self.journal:
+        for entry in self.__journal:
 
             try:
 
@@ -171,7 +161,9 @@ class FoodEnergyCalculator:
 
                 entry_title = tuple(entry)[0]
 
-                entry_title_from_catalog = self.get_food_title_from_catalog(entry_title)
+                entry_title_from_catalog = self.__get_food_title_from_catalog(
+                    entry_title
+                )
 
                 if entry_title_from_catalog is None:
                     raise CatalogEntryNotFound(entry_title)
@@ -188,6 +180,16 @@ class FoodEnergyCalculator:
                 print(exception.message)
 
         return result
+
+    @staticmethod
+    def __get_total_template() -> dict:
+
+        return {
+            "calories": 0,
+            "protein": 0,
+            "fat": 0,
+            "carbs": 0,
+        }
 
 
 def run(date_string: str):

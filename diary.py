@@ -265,9 +265,9 @@ def run(date_string: str):
         calories_to_consume = calories_limit - total["calories"]
 
         if calories_to_consume >= 0:
-            balance_message = "balance is {}.".format(calories_to_consume)
+            balance_message = f"balance is {calories_to_consume}."
         else:
-            balance_message = "excess is {}!".format(calories_to_consume * -1)
+            balance_message = f"excess is {calories_to_consume * -1}!"
 
         message = f"Daily calorie intake is {calories_limit} kcal; {balance_message}"
 

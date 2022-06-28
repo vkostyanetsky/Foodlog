@@ -7,15 +7,6 @@ from consolemenu import ConsoleMenu, PromptUtils, Screen
 from consolemenu.items import FunctionItem
 
 
-class CatalogEntryNotFound(Exception):
-    pass
-
-    def __init__(self, entry_title):
-        self.message = f'Catalog\'s entry "{entry_title}" is not found.'
-
-        super().__init__(self.message)
-
-
 class CaloriesLimitCalculator:
     __profile: dict
     __weights: dict
@@ -136,7 +127,7 @@ class FoodEnergyCalculator:
 
             if catalog_item.lower() == food_title.lower():
 
-                if type(self.__catalog[catalog_item]) == str:
+                if isinstance(self.__catalog[catalog_item], str):
                     result = self.__get_food_title_from_catalog(
                         self.__catalog[catalog_item]
                     )
@@ -152,21 +143,16 @@ class FoodEnergyCalculator:
 
         for entry in self.__journal:
 
-            try:
+            is_comment = isinstance(entry, str)
 
-                is_comment = type(entry) is str
+            if is_comment:
+                continue
 
-                if is_comment:
-                    continue
+            entry_title = tuple(entry)[0]
 
-                entry_title = tuple(entry)[0]
+            entry_title_from_catalog = self.__get_food_title_from_catalog(entry_title)
 
-                entry_title_from_catalog = self.__get_food_title_from_catalog(
-                    entry_title
-                )
-
-                if entry_title_from_catalog is None:
-                    raise CatalogEntryNotFound(entry_title)
+            if entry_title_from_catalog is not None:
 
                 entry_grams = tuple(entry.values())[0]
 
@@ -175,9 +161,9 @@ class FoodEnergyCalculator:
                 else:
                     result[entry_title_from_catalog] += entry_grams
 
-            except CatalogEntryNotFound as exception:
+            else:
 
-                print(exception.message)
+                print(f'Catalog\'s entry "{entry_title}" is not found.')
 
         return result
 

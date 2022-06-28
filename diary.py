@@ -20,11 +20,11 @@ class CaloriesLimitCalculator:
     __profile: dict
     __weights: dict
 
-    def __init__(self, profile: dict, weights: dict):
+    def __init__(self, profile: dict, weights: dict) -> None:
         self.__profile = profile
         self.__weights = weights
 
-    def get_limit(self) -> int:
+    def get_calories_limit(self) -> int:
 
         if self.__profile["calories_limit"] > 0:
             result = self.__profile["calories_limit"]
@@ -65,7 +65,7 @@ class CaloriesLimitCalculator:
 
         age = self.__get_age()
         bmr = (
-                (10 * weight) + (6.25 * height) - (5 * age)
+            (10 * weight) + (6.25 * height) - (5 * age)
         )  # https://en.wikipedia.org/wiki/Harris–Benedict_equation
 
         if self.__profile["sex"] == "man":
@@ -76,17 +76,59 @@ class CaloriesLimitCalculator:
         return bmr
 
 
-def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
-    def get_food(food_title: str) -> dict:
+class FoodEnergyCalculator:
+    journal: list
+    catalog: dict
+    foods: list
 
-        foods_list = list(filter(lambda x: x["title"] == food_title, foods))
+    def __init__(self, journal: list, catalog: dict) -> None:
+        self.journal = journal
+        self.catalog = catalog
+        self.foods = []
+
+    def get_food_energy(self) -> tuple:
+
+        total = self.get_total_template()
+
+        aggregates = self.get_aggregates_of_journal_for_date()
+
+        for aggregate in aggregates:
+
+            title = aggregate
+            grams = aggregates[aggregate]
+
+            food = self.get_food(title)
+
+            if food is None:
+                self.foods.append(self.get_food_template(title))
+                food = self.foods[-1]
+
+            attribute_values = self.catalog[title]
+
+            for attribute in ("calories", "protein", "fat", "carbs"):
+                value = round(grams * attribute_values[attribute] / 100)
+
+                food["total"][attribute] += value
+
+                total[attribute] += value
+
+        self.foods = sorted(
+            self.foods, key=lambda x: x["total"]["calories"], reverse=True
+        )
+
+        return self.foods, total
+
+    def get_food(self, food_title: str) -> dict:
+
+        foods_list = list(filter(lambda x: x["title"] == food_title, self.foods))
 
         return foods_list[0] if len(foods_list) > 0 else None
 
-    def get_food_template(food_title: str) -> dict:
+    def get_food_template(self, food_title: str) -> dict:
 
-        return {"title": food_title, "total": get_total_template()}
+        return {"title": food_title, "total": self.get_total_template()}
 
+    @staticmethod
     def get_total_template() -> dict:
 
         return {
@@ -96,27 +138,29 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
             "carbs": 0,
         }
 
-    def get_food_title_from_catalog(food_title: str) -> dict:
+    def get_food_title_from_catalog(self, food_title: str) -> dict:
 
         result = None
 
-        for catalog_item in catalog:
+        for catalog_item in self.catalog:
 
             if catalog_item.lower() == food_title.lower():
 
-                if type(catalog[catalog_item]) == str:
-                    result = get_food_title_from_catalog(catalog[catalog_item])
+                if type(self.catalog[catalog_item]) == str:
+                    result = self.get_food_title_from_catalog(
+                        self.catalog[catalog_item]
+                    )
                 else:
                     result = catalog_item
                 break
 
         return result
 
-    def get_aggregates_of_journal_for_date() -> dict:
+    def get_aggregates_of_journal_for_date(self) -> dict:
 
         result = {}
 
-        for entry in journal_for_date:
+        for entry in self.journal:
 
             try:
 
@@ -127,7 +171,7 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
 
                 entry_title = tuple(entry)[0]
 
-                entry_title_from_catalog = get_food_title_from_catalog(entry_title)
+                entry_title_from_catalog = self.get_food_title_from_catalog(entry_title)
 
                 if entry_title_from_catalog is None:
                     raise CatalogEntryNotFound(entry_title)
@@ -144,35 +188,6 @@ def get_consumption_for_date(journal_for_date: list, catalog: dict) -> tuple:
                 print(exception.message)
 
         return result
-
-    foods = []
-    total = get_total_template()
-
-    aggregates = get_aggregates_of_journal_for_date()
-
-    for aggregate in aggregates:
-
-        title = aggregate
-        grams = aggregates[aggregate]
-
-        food = get_food(title)
-
-        if food is None:
-            foods.append(get_food_template(title))
-            food = foods[-1]
-
-        attribute_values = catalog[title]
-
-        for attribute in ("calories", "protein", "fat", "carbs"):
-            value = round(grams * attribute_values[attribute] / 100)
-
-            food["total"][attribute] += value
-
-            total[attribute] += value
-
-    foods = sorted(foods, key=lambda x: x["total"]["calories"], reverse=True)
-
-    return foods, total
 
 
 def run(date_string: str):
@@ -244,7 +259,7 @@ def run(date_string: str):
 
     def print_calories_balance():
 
-        calories_limit = CaloriesLimitCalculator(profile, weights).get_limit()
+        calories_limit = CaloriesLimitCalculator(profile, weights).get_calories_limit()
         calories_to_consume = calories_limit - total["calories"]
 
         if calories_to_consume >= 0:
@@ -328,7 +343,7 @@ def run(date_string: str):
 
     if journal_for_date is not None:
 
-        foods, total = get_consumption_for_date(journal_for_date, catalog)
+        foods, total = FoodEnergyCalculator(journal_for_date, catalog).get_food_energy()
 
         data_offset = 15
         food_offset = get_food_offset()

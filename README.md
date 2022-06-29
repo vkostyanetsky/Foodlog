@@ -4,7 +4,7 @@
 
 This script calculates approximate number of calories, proteins, fats & carbohydrates which I consume during a day. 
 
-Of course, I'm aware that there are countless tools to solve the task, on smartphones especially. Furthermore, I've tried to use many of them, but gave up eventually. Some of them lose my data without a reason, some have terrible UI, and almost each one dreams of selling me a paid subscription. Gosh, I just need one simple function!
+Yes, of course: I'm aware that there are countless tools to solve the task, on smartphones especially. Furthermore, I've tried to use many of them, but gave up eventually. Some of them lose my data without a reason, some have terrible UI, and almost each one dreams of selling me a paid subscription. Gosh, I just need one simple function!
 
 ## 🤔 How to use it? 
 
@@ -29,7 +29,7 @@ Then you open journal.yaml and write the name of food you just added to the cata
   - apple: 129
 ```
 
-First line here is a current date. The journal may consist of many of them. For example:
+First line here is a current date in the YYYY-MM-DD format. The journal may consist of many of them. For example:
 
 ```yaml
 2022-04-26:
@@ -44,10 +44,10 @@ First line here is a current date. The journal may consist of many of them. For 
   - apple: 129
 ```
 
-Having catalog & journal both filled, it's possible to see how many calories and macronutrients you've consumed:
+Having catalog & journal both filled, it's possible to see how many calories and macronutrients you've consumed. If your files in C:\FoodDiary, run this:
 
 ```
-py __main__.py C:\FoodDiary
+food_diary C:\FoodDiary
 ```
 
 For instance, script output may look like this:
@@ -72,10 +72,10 @@ Target ranges                                    45%             25%            
 Daily calorie intake — 1802 kcal; excess — 223!
 ```
 
-## ☺ Well, how to set up this for me?
+## ☺ Installation
 
-You can find all configurable parameters (the calories limit, target ranges of macronutrients etc.) in the [profile](data_sample/profile.yaml).  
+```
+pip install --upgrade . 
+```
 
-## 🧐 Which requirements does it have?
-
-All dependencies are listed in [requirements.txt](requirements.txt).
+You can find all configurable parameters of the script (the calories limit, target ranges of macronutrients etc.) in the [profile](data_sample/profile.yaml).

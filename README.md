@@ -6,9 +6,25 @@ This script calculates approximate number of calories, proteins, fats & carbohyd
 
 Yes, of course: I'm aware that there are countless tools to solve the task, on smartphones especially. Furthermore, I've tried to use many of them, but gave up eventually. Some of them lose my data without a reason, some have terrible UI, and almost each one dreams of selling me a paid subscription. Gosh, I just need one simple function!
 
+## ☺ Installation
+
+```
+pip install --upgrade . 
+```
+
 ## 🤔 How to use it? 
 
-There are two YAML files: [catalog](data_sample/catalog.yaml) of food you used to consume and [journal](data_sample/journal.yaml) of products you have eaten.
+```commandline
+py -m food_diary
+```
+
+or
+
+```commandline
+food_diary
+```
+
+There are two YAML files: `catalog.yaml` which contains food you used to consume and `journal.yaml` which contains products you have eaten.
 
 Let's imagine that today is March 27, and you have eaten two apples for a lunch. If it's first time you eat an apple, you open catalog.yaml and write something like:  
 
@@ -72,10 +88,4 @@ Target ranges                                    45%             25%            
 Daily calorie intake — 1802 kcal; excess — 223!
 ```
 
-## ☺ Installation
-
-```
-pip install --upgrade . 
-```
-
-You can find all configurable parameters of the script (date format, calories limit, target ranges of macronutrients etc.) in the [profile](data_sample/profile.yaml).
+You can find all configurable parameters of the script (date format, calories limit, target ranges of macronutrients etc.) in the `profile.yaml` file.

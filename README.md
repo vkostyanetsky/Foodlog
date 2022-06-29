@@ -78,4 +78,4 @@ Daily calorie intake — 1802 kcal; excess — 223!
 pip install --upgrade . 
 ```
 
-You can find all configurable parameters of the script (the calories limit, target ranges of macronutrients etc.) in the [profile](data_sample/profile.yaml).
+You can find all configurable parameters of the script (date format, calories limit, target ranges of macronutrients etc.) in the [profile](data_sample/profile.yaml).

@@ -1,15 +1,18 @@
 import datetime
+import sys
+from argparse import ArgumentParser
 from collections import namedtuple
 from os.path import join
 
 from consolemenu import ConsoleMenu, PromptUtils, Screen
 from consolemenu.items import FunctionItem
+from .daily_statistics import print_daily_statistics
 from yaml import parser, safe_load
 
-from daily_statistics import print_daily_statistics
 
+def main() -> None:
 
-def main(data_path: str) -> None:
+    data_path = get_data_path()
     data = namedtuple("data", "profile catalog journal weights")
 
     data.profile = get_yaml_file_data(data_path, "profile.yaml")
@@ -20,9 +23,15 @@ def main(data_path: str) -> None:
     display_menu(data)
 
 
+def get_data_path() -> str:
+    argument_parser = ArgumentParser()
+    argument_parser.add_argument("path")
+
+    return argument_parser.parse_args().path
+
+
 def get_yaml_file_data(data_path: str, file_name: str) -> dict:
     yaml_file_path = join(data_path, file_name)
-    yaml_file_data = {}
 
     try:
 
@@ -32,12 +41,12 @@ def get_yaml_file_data(data_path: str, file_name: str) -> dict:
     except FileNotFoundError:
 
         print(f"File is not found: {yaml_file_path}")
-        exit(1)
+        sys.exit(1)
 
     except parser.ParserError:
 
         print(f"Unable to parse: {yaml_file_path}")
-        exit(1)
+        sys.exit(1)
 
     return yaml_file_data
 

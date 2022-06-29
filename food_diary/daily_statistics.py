@@ -1,8 +1,8 @@
 import datetime
 from collections import namedtuple
 
-from food_energy import get_food_energy
-from reference_daily_intake import get_calories_limit
+from .food_energy import get_food_energy
+from .reference_daily_intake import get_calories_limit
 
 
 def print_daily_statistics(date_string: str, data: namedtuple) -> None:

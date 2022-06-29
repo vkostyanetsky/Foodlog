@@ -12,7 +12,7 @@ So I decide:
 
 ## 🤔 How to use it? 
 
-There are two YAML files: [catalog](user_files/catalog.yaml) of food you used to consume and [journal](user_files/journal.yaml) of products you have eaten.
+There are two YAML files: [catalog](data_sample/catalog.yaml) of food you used to consume and [journal](data_sample/journal.yaml) of products you have eaten.
 
 Let's imagine that today is March 27, and you have eaten two apples for a lunch. If it's first time you eat an apple, you open catalog.yaml and write something like:  
 
@@ -78,7 +78,7 @@ Daily calorie intake — 1802 kcal; excess — 223!
 
 ## ☺ Well, how to set up this for me?
 
-You can find all configurable parameters (the calories limit, target ranges of macronutrients etc.) in the [profile](user_files/profile.yaml).  
+You can find all configurable parameters (the calories limit, target ranges of macronutrients etc.) in the [profile](data_sample/profile.yaml).  
 
 ## 🧐 Which requirements does it have?
 

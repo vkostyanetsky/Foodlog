@@ -6,8 +6,9 @@ from os.path import join
 
 from consolemenu import ConsoleMenu, PromptUtils, Screen
 from consolemenu.items import FunctionItem
-from .daily_statistics import print_daily_statistics
 from yaml import parser, safe_load
+
+from .daily_statistics import print_daily_statistics
 
 
 def main() -> None:

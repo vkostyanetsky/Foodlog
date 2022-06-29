@@ -4,10 +4,7 @@ def get_food_energy(journal: list, catalog: dict) -> tuple:
 
     aggregates = __get_aggregates_of_journal_for_date(journal, catalog)
 
-    for aggregate in aggregates:
-
-        title = aggregate
-        grams = aggregates[aggregate]
+    for title, grams in aggregates.items():
 
         food = __get_food(foods, title)
 

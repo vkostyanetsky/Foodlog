@@ -14,7 +14,7 @@ setup(
     license="MIT",
     python_requires=">=3.6",
     packages=["food_diary"],
-    install_requires=["console_menu=0.7.1", "consolemenu=1.0.1", "PyYAML=6.0"],
+    install_requires=["ConsoleMenu~=1.0.1", "PyYAML~=6.0"],
     entry_points={"console_scripts": [
         "food_diary=food_diary.food_diary:main"
     ]},

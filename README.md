@@ -8,7 +8,7 @@ Of course, I'm aware that there are countless tools to solve the task, on smartp
 
 So I decide:
 
-![Fine, I'll do it myself](tanos.png)
+![Fine, I'll do it myself](https://github.com/vkostyanetsky/FoodDiary/raw/main/tanos.png)
 
 ## ☺ Installation
 

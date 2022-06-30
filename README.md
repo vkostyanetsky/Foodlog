@@ -4,7 +4,11 @@
 
 This script calculates approximate number of calories, proteins, fats & carbohydrates which I consume during a day. 
 
-Yes, of course: I'm aware that there are countless tools to solve the task, on smartphones especially. Furthermore, I've tried to use many of them, but gave up eventually. Some of them lose my data without a reason, some have terrible UI, and almost each one dreams of selling me a paid subscription. Gosh, I just need one simple function!
+Of course, I'm aware that there are countless tools to solve the task, on smartphones especially. Furthermore, I've tried to use many of them, but gave up eventually. Some of them lose my data without a reason, some have terrible UI, and almost each one dreams of selling me a paid subscription. Gosh, I just need one simple function!
+
+So I decide:
+
+![Fine, I'll do it myself](tanos.png)
 
 ## ☺ Installation
 

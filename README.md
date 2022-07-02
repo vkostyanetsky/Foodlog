@@ -92,4 +92,4 @@ Target ranges                                    45%             25%            
 Daily calorie intake — 1802 kcal; excess — 223!
 ```
 
-You can find all configurable parameters of the script (date format, calories limit, target ranges of macronutrients etc.) in the `profile.yaml` file.
+You can find all configurable parameters of the script (calories limit, target ranges of macronutrients etc.) in the `profile.yaml` file.

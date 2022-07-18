@@ -61,7 +61,7 @@ def display_menu(data: namedtuple):
     items_params = [data, prompt_utils]
 
     menu = ConsoleMenu(
-        "FOOD DIARY",
+        "FOOD LOG",
         "Motivation is what gets you started. "
         "Habit is what keeps you going.\n— Jim Ryun",
     )

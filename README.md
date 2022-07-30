@@ -35,8 +35,8 @@ Then you open journal.yaml and write the name of food you just added to the cata
 ```yaml
 2022-04-27:
 
-  - apple: 114
-  - apple: 129
+- apple: 114
+- apple: 129
 ```
 
 First line here is a current date in the YYYY-MM-DD format. The journal may consist of many of them. For example:
@@ -44,14 +44,14 @@ First line here is a current date in the YYYY-MM-DD format. The journal may cons
 ```yaml
 2022-04-26:
   
-  - apple: 120  
-  - bread: 403
-  - pizza: 356
+- apple: 120  
+- bread: 403
+- pizza: 356
 
 2022-04-27:
 
-  - apple: 114
-  - apple: 129
+- apple: 114
+- apple: 129
 ```
 
 Having catalog & journal both filled, it's possible to see how many calories and macronutrients you've consumed. If your files in C:\FoodDiary, run this:

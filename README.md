@@ -13,20 +13,10 @@ So I decide:
 ## ☺ Installation
 
 ```
-pip install --upgrade . 
+pip install foodlog 
 ```
 
 ## 🤔 How to use it? 
-
-```commandline
-py -m food_diary
-```
-
-or
-
-```commandline
-food_diary
-```
 
 There are two YAML files: `catalog.yaml` which contains food you used to consume and `journal.yaml` which contains products you have eaten.
 
@@ -67,7 +57,7 @@ First line here is a current date in the YYYY-MM-DD format. The journal may cons
 Having catalog & journal both filled, it's possible to see how many calories and macronutrients you've consumed. If your files in C:\FoodDiary, run this:
 
 ```
-food_diary C:\FoodDiary
+foodlog
 ```
 
 For instance, script output may look like this:

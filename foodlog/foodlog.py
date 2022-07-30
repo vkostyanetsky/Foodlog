@@ -1,10 +1,10 @@
 import datetime
 import sys
-from argparse import ArgumentParser
 from collections import namedtuple
-from os.path import join
 
+# noinspection PyPackageRequirements
 from consolemenu import ConsoleMenu, PromptUtils, Screen
+# noinspection PyPackageRequirements
 from consolemenu.items import FunctionItem
 from yaml import parser, safe_load
 
@@ -13,40 +13,31 @@ from .daily_statistics import print_daily_statistics
 
 def main() -> None:
 
-    data_path = get_data_path()
     data = namedtuple("data", "profile catalog journal weights")
 
-    data.profile = get_yaml_file_data(data_path, "profile.yaml")
-    data.catalog = get_yaml_file_data(data_path, "catalog.yaml")
-    data.journal = get_yaml_file_data(data_path, "journal.yaml")
-    data.weights = get_yaml_file_data(data_path, "weights.yaml")
+    data.profile = get_yaml_file_data("profile.yaml")
+    data.catalog = get_yaml_file_data("catalog.yaml")
+    data.journal = get_yaml_file_data("journal.yaml")
+    data.weights = get_yaml_file_data("weights.yaml")
 
     display_menu(data)
 
 
-def get_data_path() -> str:
-    argument_parser = ArgumentParser()
-    argument_parser.add_argument("path")
-
-    return argument_parser.parse_args().path
-
-
-def get_yaml_file_data(data_path: str, file_name: str) -> dict:
-    yaml_file_path = join(data_path, file_name)
+def get_yaml_file_data(file_name: str) -> dict:
 
     try:
 
-        with open(yaml_file_path, encoding="utf-8-sig") as yaml_file:
+        with open(file_name, encoding="utf-8-sig") as yaml_file:
             yaml_file_data = safe_load(yaml_file)
 
     except FileNotFoundError:
 
-        print(f"File is not found: {yaml_file_path}")
+        print(f"File is not found: {file_name}")
         sys.exit(1)
 
     except parser.ParserError:
 
-        print(f"Unable to parse: {yaml_file_path}")
+        print(f"Unable to parse: {file_name}")
         sys.exit(1)
 
     return yaml_file_data

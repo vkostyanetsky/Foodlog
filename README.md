@@ -1,6 +1,6 @@
 # 🍞 🍏 🥩 Food Diary
 
-[![PyPi](https://img.shields.io/pypi/v/foodlog)](https://pypi.org/project/foodlog/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![flake8](https://github.com/vkostyanetsky/Foodlog/actions/workflows/flake8.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/flake8.yml)
+[![PyPi](https://img.shields.io/pypi/v/foodlog)](https://pypi.org/project/foodlog/) [![flake8](https://github.com/vkostyanetsky/Foodlog/actions/workflows/flake8.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/flake8.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This script calculates approximate number of calories, proteins, fats & carbohydrates which I consume during a day. 
 

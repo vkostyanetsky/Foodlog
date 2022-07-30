@@ -54,7 +54,7 @@ First line here is a current date in the YYYY-MM-DD format. The journal may cons
 - apple: 129
 ```
 
-Having catalog & journal both filled, it's possible to see how many calories and macronutrients you've consumed. If your files in C:\FoodDiary, run this:
+Having catalog & journal both filled, it's possible to see how many calories and macronutrients you've consumed. Run this in a working directory:
 
 ```
 foodlog

@@ -1,3 +1,6 @@
+import re
+
+
 def get_food_energy(journal: list, catalog: dict) -> tuple:
     total = __get_total_template()
     foods = []
@@ -21,14 +24,13 @@ def get_food_energy(journal: list, catalog: dict) -> tuple:
 
             total[attribute] += value
 
-    foods = sorted(
-        foods, key=lambda x: x["total"]["calories"], reverse=True
-    )
+    foods = sorted(foods, key=lambda x: x["total"]["calories"], reverse=True)
 
     return foods, total
 
 
 def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
+
     result = {}
 
     for entry in journal:
@@ -42,9 +44,28 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
 
         entry_title_from_catalog = __get_food_title_from_catalog(catalog, entry_title)
 
+        pattern = re.compile("^[ 0-9\\+\\-()/*]+$")
+
         if entry_title_from_catalog is not None:
 
-            entry_grams = tuple(entry.values())[0]
+            try:
+
+                entry_grams = str(tuple(entry.values())[0])
+
+                if pattern.search(entry_grams) is None:
+                    raise ValueError
+
+                entry_grams = eval(entry_grams)
+
+            except (SyntaxError, ZeroDivisionError, NameError, TypeError):
+
+                # "1+2)+3" SyntaxError
+                # "1/0" ZeroDivisionError
+                # "undefined_variable/3" NameError
+                # "[2, 4]/2" TypeError
+
+                print(f'Unable to get weight for the journal\'s entry "{entry_title}".')
+                entry_grams = 0
 
             if result.get(entry_title_from_catalog) is None:
                 result[entry_title_from_catalog] = entry_grams
@@ -66,9 +87,7 @@ def __get_food_title_from_catalog(catalog: dict, food_title: str) -> dict:
         if catalog_item.lower() == food_title.lower():
 
             if isinstance(catalog[catalog_item], str):
-                result = __get_food_title_from_catalog(
-                    catalog, catalog[catalog_item]
-                )
+                result = __get_food_title_from_catalog(catalog, catalog[catalog_item])
             else:
                 result = catalog_item
             break

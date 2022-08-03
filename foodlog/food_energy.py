@@ -61,12 +61,10 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
 
                 entry_grams = eval(entry_grams)
 
-            except (SyntaxError, ZeroDivisionError, NameError, TypeError):
+            except (SyntaxError, ZeroDivisionError):
 
                 # SyntaxError:          "1+2)+3"
                 # ZeroDivisionError:    "1/0"
-                # NameError:            "undefined_variable/3"
-                # TypeError:            "[2, 4]/2"
 
                 print(f'Unable to get weight for the journal\'s entry "{entry_title}".')
                 entry_grams = 0

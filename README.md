@@ -63,23 +63,28 @@ foodlog
 For instance, script output may look like this:
 
 ```
-FOOD                             CALORIES        PROTEIN         FAT             CARBS          
+FOOD                                          CALORIES        PROTEIN         FAT             CARBS           GRAMS          
 
-dumplings                        674             29              30              71             
-bombarr                          377             40              13              4              
-apple                            371             3               3               67             
-whey                             186             36              3               3              
-eggs                             182             15              13              1              
-crab meat                        119             5               2               21             
-tomato juice                     61              0               0               14             
-white yogurt                     55              3               2               5              
+peremech                                      539             22              31              45              198            
+fish in batter                                500             49              23              21              250            
+ham                                           361             54              13              9               361            
+apples                                        262             2               2               48              485            
+yogurt                                        228             11              9               26              190            
+peach                                         131             3               0               32              285            
+watermelon                                    126             3               1               29              502            
+sweet corn                                    82              3               0               18              163            
+drinking water                                0               0               0               0               800            
 
-TOTAL                            2025            131             66              186            
+TOTAL                                         2229            147             79              228                            
 
-Balance today                                    34%             17%             49%            
-Target ranges                                    45%             25%             30%            
+Balance today                                                 32%             17%             50%                            
+Target ranges                                                 45%             25%             30%                            
 
-Daily calorie intake — 1802 kcal; excess — 223!
+Daily calorie intake is 1803 kcal; excess is 426!
+
+Body weight dynamic:
+- yesterday    109.1
+- today        109.1
 ```
 
 You can find all configurable parameters of the script (calories limit, target ranges of macronutrients etc.) in the `profile.yaml` file.

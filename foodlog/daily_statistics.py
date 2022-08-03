@@ -15,58 +15,52 @@ def print_daily_statistics(date_string: str, data: namedtuple) -> None:
         print()
         return
 
-    journal_for_date = data.journal.get(date)
+    journal_for_date = data.journal[date] if data.journal.get(date) else []
 
-    if journal_for_date is not None:
+    foods, total = get_food_energy(journal_for_date, data.catalog)
 
-        foods, total = get_food_energy(journal_for_date, data.catalog)
+    data_offset = 15
+    food_offset = __get_food_offset(data.catalog, data_offset)
 
-        data_offset = 15
-        food_offset = __get_food_offset(data.catalog, data_offset)
+    print()
 
-        print()
+    __print_table_row(
+        "FOOD", "CALORIES", "PROTEIN", "FAT", "CARBS", "GRAMS", food_offset, data_offset
+    )
+    print()
 
+    for entry in foods:
         __print_table_row(
-            "FOOD", "CALORIES", "PROTEIN", "FAT", "CARBS", "GRAMS", food_offset, data_offset
-        )
-        print()
-
-        for entry in foods:
-            __print_table_row(
-                entry["title"],
-                entry["total"]["calories"],
-                entry["total"]["protein"],
-                entry["total"]["fat"],
-                entry["total"]["carbs"],
-                entry["total"]["grams"],
-                food_offset,
-                data_offset,
-            )
-
-        print()
-        __print_table_row(
-            "TOTAL",
-            total["calories"],
-            total["protein"],
-            total["fat"],
-            total["carbs"],
-            "",
+            entry["title"],
+            entry["total"]["calories"],
+            entry["total"]["protein"],
+            entry["total"]["fat"],
+            entry["total"]["carbs"],
+            entry["total"]["grams"],
             food_offset,
             data_offset,
         )
 
-        print()
-        __print_nutrients_balance(data, total, food_offset, data_offset)
+    print()
+    __print_table_row(
+        "TOTAL",
+        total["calories"],
+        total["protein"],
+        total["fat"],
+        total["carbs"],
+        "",
+        food_offset,
+        data_offset,
+    )
 
-        print()
-        __print_calories_balance(data, total)
+    print()
+    __print_nutrients_balance(data, total, food_offset, data_offset)
 
-        print()
-        __print_weight_dynamic(date, data)
+    print()
+    __print_calories_balance(data, total)
 
-    else:
-
-        print(f"There are no records for {date_string}!")
+    print()
+    __print_weight_dynamic(date, data)
 
     print()
 

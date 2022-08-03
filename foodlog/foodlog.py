@@ -4,6 +4,7 @@ from collections import namedtuple
 
 # noinspection PyPackageRequirements
 from consolemenu import ConsoleMenu, PromptUtils, Screen
+
 # noinspection PyPackageRequirements
 from consolemenu.items import FunctionItem
 from yaml import parser, safe_load

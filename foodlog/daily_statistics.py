@@ -95,7 +95,14 @@ def __print_table_row(
     carbohydrates_value = str(carbs_value).ljust(data_offset)
     grams_value = str(grams_value).ljust(data_offset)
 
-    print(food_value, calories_value, protein_value, fat_value, carbohydrates_value, grams_value)
+    print(
+        food_value,
+        calories_value,
+        protein_value,
+        fat_value,
+        carbohydrates_value,
+        grams_value,
+    )
 
 
 def __percent(nutrients_total: int, value: int) -> str:

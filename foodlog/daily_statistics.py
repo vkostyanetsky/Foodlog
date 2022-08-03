@@ -27,7 +27,7 @@ def print_daily_statistics(date_string: str, data: namedtuple) -> None:
         print()
 
         print_table_row(
-            "FOOD", "CALORIES", "PROTEIN", "FAT", "CARBS", food_offset, data_offset
+            "FOOD", "CALORIES", "PROTEIN", "FAT", "CARBS", "GRAMS", food_offset, data_offset
         )
         print()
 
@@ -38,6 +38,7 @@ def print_daily_statistics(date_string: str, data: namedtuple) -> None:
                 entry["total"]["protein"],
                 entry["total"]["fat"],
                 entry["total"]["carbs"],
+                entry["total"]["grams"],
                 food_offset,
                 data_offset,
             )
@@ -49,6 +50,7 @@ def print_daily_statistics(date_string: str, data: namedtuple) -> None:
             total["protein"],
             total["fat"],
             total["carbs"],
+            "",
             food_offset,
             data_offset,
         )
@@ -88,6 +90,7 @@ def print_table_row(
     protein_value: str,
     fat_value: str,
     carbs_value: str,
+    grams_value: str,
     food_offset: int,
     data_offset: int,
 ):
@@ -96,8 +99,9 @@ def print_table_row(
     protein_value = str(protein_value).ljust(data_offset)
     fat_value = str(fat_value).ljust(data_offset)
     carbohydrates_value = str(carbs_value).ljust(data_offset)
+    grams_value = str(grams_value).ljust(data_offset)
 
-    print(food_value, calories_value, protein_value, fat_value, carbohydrates_value)
+    print(food_value, grams_value, calories_value, protein_value, fat_value, carbohydrates_value)
 
 
 def percent(nutrients_total: int, value: int) -> str:
@@ -131,6 +135,7 @@ def print_nutrients_balance(
         protein_percent,
         fat_percent,
         carbs_percent,
+        "",
         food_offset,
         data_offset,
     )
@@ -141,6 +146,7 @@ def print_nutrients_balance(
         default_protein_percent,
         default_fat_percent,
         default_carbs_percent,
+        "",
         food_offset,
         data_offset,
     )

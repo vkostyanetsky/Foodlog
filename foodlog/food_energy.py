@@ -17,8 +17,12 @@ def get_food_energy(journal: list, catalog: dict) -> tuple:
 
         attribute_values = catalog[title]
 
-        for attribute in ("calories", "protein", "fat", "carbs"):
-            value = round(grams * attribute_values[attribute] / 100)
+        for attribute in ("calories", "protein", "fat", "carbs", "grams"):
+
+            if attribute == "grams":
+                value = grams
+            else:
+                value = round(grams * attribute_values[attribute] / 100)
 
             food["total"][attribute] += value
 
@@ -59,10 +63,10 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
 
             except (SyntaxError, ZeroDivisionError, NameError, TypeError):
 
-                # "1+2)+3" SyntaxError
-                # "1/0" ZeroDivisionError
-                # "undefined_variable/3" NameError
-                # "[2, 4]/2" TypeError
+                # SyntaxError:          "1+2)+3"
+                # ZeroDivisionError:    "1/0"
+                # NameError:            "undefined_variable/3"
+                # TypeError:            "[2, 4]/2"
 
                 print(f'Unable to get weight for the journal\'s entry "{entry_title}".')
                 entry_grams = 0
@@ -111,4 +115,5 @@ def __get_total_template() -> dict:
         "protein": 0,
         "fat": 0,
         "carbs": 0,
+        "grams": 0,
     }

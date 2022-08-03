@@ -2,7 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
 * Math operations in the journal file. For instance, now you can write something like `apple: 100+150+200` and it will be equal to `apple: 450`.
+* Weight output for each food entry in a daily statistics.
 
 ## [0.1.0] - 2022-07-30
 

@@ -63,22 +63,22 @@ foodlog
 For instance, script output may look like this:
 
 ```
-FOOD                                          CALORIES        PROTEIN         FAT             CARBS           GRAMS          
+FOOD                   CALORIES        PROTEIN         FAT             CARBS           GRAMS          
 
-peremech                                      539             22              31              45              198            
-fish in batter                                500             49              23              21              250            
-ham                                           361             54              13              9               361            
-apples                                        262             2               2               48              485            
-yogurt                                        228             11              9               26              190            
-peach                                         131             3               0               32              285            
-watermelon                                    126             3               1               29              502            
-sweet corn                                    82              3               0               18              163            
-drinking water                                0               0               0               0               800            
+peremech               539             22              31              45              198            
+fish in batter         500             49              23              21              250            
+ham                    361             54              13              9               361            
+apples                 262             2               2               48              485            
+yogurt                 228             11              9               26              190            
+peach                  131             3               0               32              285            
+watermelon             126             3               1               29              502            
+sweet corn             82              3               0               18              163            
+drinking water         0               0               0               0               800            
 
-TOTAL                                         2229            147             79              228                            
+TOTAL                  2229            147             79              228                            
 
-Balance today                                                 32%             17%             50%                            
-Target ranges                                                 45%             25%             30%                            
+Balance today                          32%             17%             50%                            
+Target ranges                          45%             25%             30%                            
 
 Daily calorie intake is 1803 kcal; excess is 426!
 
@@ -105,12 +105,12 @@ water: h2o
 From this point, you can use these identifiers like other ones in your `journal.yaml` file. The script still shows you how much water you consume in the `GRAMS` column of daily statistics; for instance:
 
 ```yaml
-FOOD                                          CALORIES        PROTEIN         FAT             CARBS           GRAMS
+FOOD                   CALORIES        PROTEIN         FAT             CARBS           GRAMS
 
-apples                                        157             1               1               28              290
-ham                                           103             11              4               6               124
-watermelon                                    54              1               0               13              217
-water                                         0               0               0               0               800
+apples                 157             1               1               28              290
+ham                    103             11              4               6               124
+watermelon             54              1               0               13              217
+water                  0               0               0               0               800
 ```
 
 There is no daily balance for a day, but you are free to decide what is your norm.

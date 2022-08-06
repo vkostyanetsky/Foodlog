@@ -109,10 +109,9 @@ FOOD                   CALORIES        PROTEIN         FAT             CARBS    
 
 apples                 157             1               1               28              290
 ham                    103             11              4               6               124
-watermelon             54              1               0               13              217
 water                  0               0               0               0               800
 ```
 
-There is no daily balance for a day, but you are free to decide what is your norm.
+There is no balance value for a day, but you are free to decide what is your norm.
 
 By the way, you may use this method to control your intake of other products which have no calories. Coffee, for instance. 

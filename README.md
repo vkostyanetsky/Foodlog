@@ -88,3 +88,31 @@ Body weight dynamic:
 ```
 
 You can find all configurable parameters of the script (calories limit, target ranges of macronutrients etc.) in the `profile.yaml` file.
+
+## 🤔 How can I take water I consume into account?
+
+There are no calories & macronutrients in water. Consequently, you can add record like this to your `catalog.yaml` file:
+
+```yaml
+h2o:
+  calories: 0
+  protein:  0
+  fat:      0
+  carbs:    0
+water: h2o
+```
+
+From this point, you can use these identifiers like other ones in your `journal.yaml` file. The script still shows you how much water you consume; for instance:
+
+```yaml
+FOOD                                          CALORIES        PROTEIN         FAT             CARBS           GRAMS
+
+apples                                        157             1               1               28              290
+ham                                           103             11              4               6               124
+watermelon                                    54              1               0               13              217
+water                                         0               0               0               0               800
+```
+
+There is no daily balance for a day, but you are free to decide what is your norm.
+
+By the way, you may use this method to control your intake of other products which have no calories. Coffee, for instance. 

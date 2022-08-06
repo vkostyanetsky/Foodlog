@@ -102,7 +102,7 @@ h2o:
 water: h2o
 ```
 
-From this point, you can use these identifiers like other ones in your `journal.yaml` file. The script still shows you how much water you consume in the “GRAMS” column of daily statistics; for instance:
+From this point, you can use these identifiers like other ones in your `journal.yaml` file. The script still shows you how much water you consume in the `GRAMS` column of daily statistics; for instance:
 
 ```yaml
 FOOD                                          CALORIES        PROTEIN         FAT             CARBS           GRAMS

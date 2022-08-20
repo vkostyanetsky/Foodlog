@@ -14,7 +14,11 @@ setup(
     license="MIT",
     python_requires=">=3.7",
     packages=["foodlog"],
-    install_requires=["console_menu~=0.7.1", "PyYAML~=6.0"],
+    install_requires=[
+        "PyYAML~=6.0",
+        "keyboard~=0.13.5",
+        "vkostyanetsky.cliutils~=0.2.0",
+    ],
     entry_points={"console_scripts": [
         "foodlog=foodlog.app:main_menu"
     ]},

@@ -107,10 +107,7 @@ def __get_food(foods: list, food_title: str) -> dict:
 
 
 def __get_food_template(food_title: str) -> dict:
-    return {
-        "title": food_title,
-        "total": __get_total_template()
-    }
+    return {"title": food_title, "total": __get_total_template()}
 
 
 def __get_total_template() -> dict:

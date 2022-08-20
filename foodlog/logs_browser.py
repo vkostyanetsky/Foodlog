@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+from collections import namedtuple
+
 import keyboard
 from vkostyanetsky import cliutils
-from collections import namedtuple
+
 from foodlog import logs_viewer
+
 
 class LogsBrowser:
     _data: namedtuple

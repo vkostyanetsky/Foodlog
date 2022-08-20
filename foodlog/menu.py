@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
 import datetime
-
-from foodlog import calculator
-from foodlog import reference_daily_intake
-
-from vkostyanetsky.cliutils import Menu
-from vkostyanetsky.cliutils import title_and_value
 from collections import namedtuple
+
+from vkostyanetsky.cliutils import Menu, title_and_value
+
+from foodlog import calculator, reference_daily_intake
 
 
 class FoodlogMenu(Menu):
@@ -93,7 +91,9 @@ class FoodlogMenu(Menu):
         profile_value = self._data.profile[key]
 
         text = title_and_value(
-            title=title, value=f"{balance_value}% (aim is {profile_value}%)", width=self._summary_titles_width
+            title=title,
+            value=f"{balance_value}% (aim is {profile_value}%)",
+            width=self._summary_titles_width,
         )
 
         print(self._text_line(text))

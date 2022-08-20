@@ -1,7 +1,7 @@
 import datetime
 from collections import namedtuple
-from foodlog import calculator
-from foodlog import reference_daily_intake
+
+from foodlog import calculator, reference_daily_intake
 
 
 def get(log_index: int, data: namedtuple) -> list:
@@ -9,58 +9,70 @@ def get(log_index: int, data: namedtuple) -> list:
     journal_date = list(data.journal.keys())[log_index]
     journal_entry = list(data.journal.values())[log_index]
 
-    result = [journal_date]
-    totals = calculator.totals(journal_entry, data.catalog)  # foods, total
+    lines = [journal_date]
+    totals = calculator.totals(journal_entry, data.catalog)
 
     data_offset = 15
     food_offset = __get_food_offset(data.catalog, data_offset)
 
-    result.append("")
+    lines.append("")
 
     __add_table_row(
-        result, "FOOD", "CALORIES", "PROTEIN", "FAT", "CARBS", "GRAMS", food_offset, data_offset
+        lines,
+        {
+            "food": "FOOD",
+            "calories": "CALORIES",
+            "protein": "PROTEIN",
+            "fat": "FAT",
+            "carbs": "CARBS",
+            "grams": "GRAMS",
+        },
+        food_offset,
+        data_offset,
     )
-    result.append("")
+    lines.append("")
 
     for entry in totals["foods"]:
         __add_table_row(
-            result,
-            entry["title"],
-            entry["total"]["calories"],
-            entry["total"]["protein"],
-            entry["total"]["fat"],
-            entry["total"]["carbs"],
-            entry["total"]["grams"],
+            lines,
+            {
+                "food": entry["title"],
+                "calories": entry["total"]["calories"],
+                "protein": entry["total"]["protein"],
+                "fat": entry["total"]["fat"],
+                "carbs": entry["total"]["carbs"],
+                "grams": entry["total"]["grams"],
+            },
             food_offset,
             data_offset,
         )
 
-    result.append("")
+    lines.append("")
 
     __add_table_row(
-        result,
-        "TOTAL",
-        totals["total"]["calories"],
-        totals["total"]["protein"],
-        totals["total"]["fat"],
-        totals["total"]["carbs"],
-        "",
+        lines,
+        {
+            "food": "TOTAL",
+            "calories": totals["total"]["calories"],
+            "protein": totals["total"]["protein"],
+            "fat": totals["total"]["fat"],
+            "carbs": totals["total"]["carbs"],
+            "grams": "",
+        },
         food_offset,
         data_offset,
     )
 
-    result.append("")
-    __print_nutrients_balance(result, data, totals["total"], food_offset, data_offset)
+    lines.append("")
+    __print_nutrients_balance(lines, data, totals["total"], food_offset, data_offset)
 
-    result.append("")
-    __print_calories_balance(result, data, totals["total"])
+    lines.append("")
+    __print_calories_balance(lines, data, totals["total"])
 
-    result.append("")
-    __print_weight_dynamic(result, journal_date, data)
+    lines.append("")
+    __print_weight_dynamic(lines, journal_date, data)
 
-    result.append("")
-
-    return result
+    return lines
 
 
 def __get_food_offset(catalog: dict, data_offset: int) -> int:
@@ -76,25 +88,16 @@ def __get_food_offset(catalog: dict, data_offset: int) -> int:
     return result + data_offset
 
 
-def __add_table_row(
-    result,
-    food_value: str,
-    calories_value: str,
-    protein_value: str,
-    fat_value: str,
-    carbs_value: str,
-    grams_value: str,
-    food_offset: int,
-    data_offset: int,
-):
-    food_value = food_value.ljust(food_offset)
-    calories_value = str(calories_value).ljust(data_offset)
-    protein_value = str(protein_value).ljust(data_offset)
-    fat_value = str(fat_value).ljust(data_offset)
-    carbohydrates_value = str(carbs_value).ljust(data_offset)
-    grams_value = str(grams_value).ljust(data_offset)
+def __add_table_row(lines: list, columns: dict, food_offset: int, data_offset: int):
 
-    result.append(f"{food_value}{calories_value}{protein_value}{fat_value}{carbohydrates_value}{grams_value}")
+    food = columns["food"].ljust(food_offset)
+    calories = str(columns["calories"]).ljust(data_offset)
+    protein = str(columns["protein"]).ljust(data_offset)
+    fat = str(columns["fat"]).ljust(data_offset)
+    carbs = str(columns["carbs"]).ljust(data_offset)
+    grams = str(columns["grams"]).ljust(data_offset)
+
+    lines.append(f"{food}{calories}{protein}{fat}{carbs}{grams}")
 
 
 def __percent(nutrients_total: int, value: int) -> str:
@@ -109,7 +112,7 @@ def __percent(nutrients_total: int, value: int) -> str:
 
 
 def __print_nutrients_balance(
-    result, data: namedtuple, total: dict, food_offset: int, data_offset: int
+    result: list, data: namedtuple, total: dict, food_offset: int, data_offset: int
 ):
 
     nutrients_total = total["protein"] + total["fat"] + total["carbs"]
@@ -124,31 +127,37 @@ def __print_nutrients_balance(
 
     __add_table_row(
         result,
-        "Balance today",
-        "",
-        protein_percent,
-        fat_percent,
-        carbs_percent,
-        "",
+        {
+            "food": "Balance today",
+            "calories": "",
+            "protein": protein_percent,
+            "fat": fat_percent,
+            "carbs": carbs_percent,
+            "grams": "",
+        },
         food_offset,
         data_offset,
     )
 
     __add_table_row(
         result,
-        "Target ranges",
-        "",
-        default_protein_percent,
-        default_fat_percent,
-        default_carbs_percent,
-        "",
+        {
+            "food": "Target ranges",
+            "calories": "",
+            "protein": default_protein_percent,
+            "fat": default_fat_percent,
+            "carbs": default_carbs_percent,
+            "grams": "",
+        },
         food_offset,
         data_offset,
     )
 
 
-def __print_calories_balance(result, data: namedtuple, total: dict):
-    calories_limit = reference_daily_intake.get_calories_limit(data.profile, data.weights)
+def __print_calories_balance(lines: list, data: namedtuple, total: dict):
+    calories_limit = reference_daily_intake.get_calories_limit(
+        data.profile, data.weights
+    )
     calories_to_consume = calories_limit - total["calories"]
 
     if calories_to_consume >= 0:
@@ -158,23 +167,23 @@ def __print_calories_balance(result, data: namedtuple, total: dict):
 
     message = f"Daily calorie intake is {calories_limit} kcal; {balance_message}"
 
-    result.append(message)
+    lines.append(message)
 
 
-def __print_weight_dynamic(result, date: datetime.date, data: namedtuple):
+def __print_weight_dynamic(lines: list, date: datetime.date, data: namedtuple):
     yesterday_weight = data.weights.get(date - datetime.timedelta(days=1))
     today_weight = data.weights.get(date)
     tomorrow_weight = data.weights.get(date + datetime.timedelta(days=1))
 
     if yesterday_weight or today_weight or tomorrow_weight:
 
-        result.append("Body weight dynamic:")
+        lines.append("Body weight dynamic:")
 
         if yesterday_weight:
-            result.append(f"- yesterday    {yesterday_weight}")
+            lines.append(f"- yesterday    {yesterday_weight}")
 
         if today_weight:
-            result.append(f"- today        {today_weight}")
+            lines.append(f"- today        {today_weight}")
 
         if tomorrow_weight:
-            result.append(f"- tomorrow     {tomorrow_weight}")
+            lines.append(f"- tomorrow     {tomorrow_weight}")

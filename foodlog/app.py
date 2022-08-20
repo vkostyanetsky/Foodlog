@@ -1,9 +1,10 @@
-from foodlog.menu import FoodlogMenu
-from foodlog.logs_browser import LogsBrowser
-from collections import namedtuple
 import sys
+from collections import namedtuple
+
 import yaml
 
+from foodlog.logs_browser import LogsBrowser
+from foodlog.menu import FoodlogMenu
 
 
 def main_menu() -> None:

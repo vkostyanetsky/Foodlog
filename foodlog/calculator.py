@@ -1,9 +1,9 @@
 import re
 
 
-def get_food_energy(journal: list, catalog: dict) -> tuple:
-    total = __get_total_template()
+def totals(journal: list, catalog: dict) -> dict:
     foods = []
+    total = __get_total_template()
 
     aggregates = __get_aggregates_of_journal_for_date(journal, catalog)
 
@@ -30,7 +30,10 @@ def get_food_energy(journal: list, catalog: dict) -> tuple:
 
     foods = sorted(foods, key=lambda x: x["total"]["calories"], reverse=True)
 
-    return foods, total
+    return {
+        "foods": foods,
+        "total": total,
+    }
 
 
 def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
@@ -104,7 +107,10 @@ def __get_food(foods: list, food_title: str) -> dict:
 
 
 def __get_food_template(food_title: str) -> dict:
-    return {"title": food_title, "total": __get_total_template()}
+    return {
+        "title": food_title,
+        "total": __get_total_template()
+    }
 
 
 def __get_total_template() -> dict:
@@ -115,3 +121,23 @@ def __get_total_template() -> dict:
         "carbs": 0,
         "grams": 0,
     }
+
+
+def nutrients_balance(total: dict) -> dict:
+
+    nutrients_total = total["protein"] + total["fat"] + total["carbs"]
+
+    return {
+        "protein_percent": __percent(nutrients_total, total["protein"]),
+        "fat_percent": __percent(nutrients_total, total["fat"]),
+        "carbs_percent": __percent(nutrients_total, total["carbs"]),
+    }
+
+
+def __percent(total: int, value: int) -> int:
+    if total > 0:
+        result = round(value * 100 / total)
+    else:
+        result = 0
+
+    return result

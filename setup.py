@@ -16,7 +16,7 @@ setup(
     packages=["foodlog"],
     install_requires=["console_menu~=0.7.1", "PyYAML~=6.0"],
     entry_points={"console_scripts": [
-        "foodlog=foodlog.foodlog:main"
+        "foodlog=foodlog.app:main_menu"
     ]},
     author="Vlad Kostyanetsky",
     author_email="vlad@kostyanetsky.me",

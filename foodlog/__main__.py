@@ -1,4 +1,4 @@
-from .foodlog import main
+from foodlog import app
 
 if __name__ == "__main__":
-    main()
+    app.main_menu()

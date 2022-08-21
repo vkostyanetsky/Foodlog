@@ -24,7 +24,6 @@ setup(
     ]},
     author="Vlad Kostyanetsky",
     author_email="vlad@kostyanetsky.me",
-    # https://pypi.org/pypi?:action=list_classifiers
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -32,6 +31,9 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Topic :: Utilities",
     ],
     keywords="food diary"

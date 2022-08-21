@@ -16,7 +16,6 @@ def main_menu() -> None:
     menu = FoodlogMenu(data)
 
     menu.add_item("Logs Browser", __logs_browser)
-    menu.add_item("Statistics", __statistics)
     menu.add_item("Exit", sys.exit)
 
     menu.choose()
@@ -27,11 +26,6 @@ def __logs_browser() -> None:
     data = __get_data()
 
     LogsBrowser(data).open()
-
-    main_menu()
-
-
-def __statistics() -> None:
 
     main_menu()
 

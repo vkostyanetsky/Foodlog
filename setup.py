@@ -8,7 +8,7 @@ setup(
     name="foodlog",
     version=__version__,
     description="A simple CLI timer to calculate fasting zones.",
-    long_description=open('README.md', encoding="utf-8-sig").read(),
+    long_description=open("README.md", encoding="utf-8-sig").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/vkostyanetsky/Foodlog",
     license="MIT",
@@ -19,9 +19,7 @@ setup(
         "keyboard~=0.13.5",
         "vkostyanetsky.cliutils~=0.2.0",
     ],
-    entry_points={"console_scripts": [
-        "foodlog=foodlog.app:main_menu"
-    ]},
+    entry_points={"console_scripts": ["foodlog=foodlog.app:main_menu"]},
     author="Vlad Kostyanetsky",
     author_email="vlad@kostyanetsky.me",
     classifiers=[
@@ -36,5 +34,5 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Topic :: Utilities",
     ],
-    keywords="food diary"
+    keywords="food diary",
 )

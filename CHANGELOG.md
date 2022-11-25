@@ -1,6 +1,10 @@
 # Changelog
 
-<!-- ## [Unreleased] -->
+## [Unreleased]
+
+### Added
+
+* Changed hotkeys of logs browser from `Left` and `Right` to `A` and `D`.
 
 ## 0.2.0 - 2022-08-21
 

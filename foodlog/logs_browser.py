@@ -14,8 +14,8 @@ class LogsBrowser:
     _max_index: int = 0
     _index: int = 0
 
-    _prev_log_hotkey: str = "Left"
-    _next_log_hotkey: str = "Right"
+    _prev_log_hotkey: str = "A"
+    _next_log_hotkey: str = "D"
     _exit_hotkey: str = "Esc"
 
     def __init__(self, data: namedtuple):

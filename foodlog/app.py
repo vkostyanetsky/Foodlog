@@ -24,6 +24,9 @@ def main_menu() -> None:
 
 
 def __logs_browser() -> None:
+    """
+    Shows logs browser.
+    """
 
     data = __get_data()
 
@@ -33,6 +36,9 @@ def __logs_browser() -> None:
 
 
 def __get_data() -> namedtuple:
+    """
+    Returns app data collection.
+    """
 
     data = namedtuple("data", "profile catalog journal weights")
 
@@ -45,6 +51,9 @@ def __get_data() -> namedtuple:
 
 
 def __get_yaml_file_data(file_name: str) -> dict:
+    """
+    Returns YAML file content as a dictionary.
+    """
 
     try:
 

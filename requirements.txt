@@ -1,4 +1,4 @@
 keyboard==0.13.5
 PyYAML==6.0
-setuptools==58.1.0
+setuptools>=58.1.0
 vkostyanetsky.cliutils==0.2.0

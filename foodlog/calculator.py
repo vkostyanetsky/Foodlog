@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 
+"""
+Totals calculating functionality.
+"""
+
 import re
 
 
 def totals(journal: list, catalog: dict) -> dict:
+    """
+    Returns totals for a journal.
+    """
+
     foods = []
     total = __get_total_template()
 
@@ -58,7 +66,7 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
                 if pattern.search(entry_grams) is None:
                     raise ValueError
 
-                entry_grams = eval(entry_grams)
+                entry_grams = eval(entry_grams)  # pylint: disable=eval-used
 
             except (SyntaxError, ZeroDivisionError):
                 # SyntaxError:          "1+2)+3"
@@ -113,6 +121,10 @@ def __get_total_template() -> dict:
 
 
 def nutrients_balance(total: dict) -> dict:
+    """
+    Returns nutrients balance.
+    """
+
     nutrients_total = total["protein"] + total["fat"] + total["carbs"]
 
     return {

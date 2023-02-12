@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Journal reading functionality.
+"""
+
 import datetime
 from collections import namedtuple
 
@@ -7,6 +11,10 @@ from foodlog import calculator, reference_daily_intake
 
 
 def get(log_index: int, data: namedtuple) -> list:
+    """
+    Returns information from a journal log by an index given.
+    """
+
     journal_date = list(data.journal.keys())[log_index]
     journal_entry = list(data.journal.values())[log_index]
 

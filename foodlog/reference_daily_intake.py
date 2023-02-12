@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 
+"""
+Daily calories intake calculator using user's profile given.
+"""
+
 from datetime import date
 
 
 def get_calories_limit(profile: dict, weights: dict) -> int:
+    """
+    Returns calories limit for a user's profile.
+    """
+
     if profile["calories_limit"] > 0:
         result = profile["calories_limit"]
     else:

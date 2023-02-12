@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Router class for the application.
+"""
+
 import sys
 from collections import namedtuple
 

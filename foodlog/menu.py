@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Main app's menu generator.
+"""
+
 import datetime
 from collections import namedtuple
 
@@ -9,6 +13,10 @@ from foodlog import calculator, reference_daily_intake
 
 
 class FoodlogMenu(Menu):
+    """
+    Class of the main app's menu.
+    """
+
     _data: namedtuple
     _summary_titles_width: int = 10
 

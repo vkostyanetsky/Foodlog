@@ -1,6 +1,6 @@
 # 🍞 🍏 🥩 Food Diary
 
-[![PyPi](https://img.shields.io/pypi/v/foodlog)](https://pypi.org/project/foodlog/) [![mypy](https://github.com/vkostyanetsky/Foodlog/actions/workflows/mypy.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/mypy.yml) [![pylint](https://github.com/vkostyanetsky/Foodlog/actions/workflows/pylint.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/pylint.yml) [![black](https://github.com/vkostyanetsky/Foodlog/actions/workflows/black.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/black.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPi](https://img.shields.io/pypi/v/foodlog)](https://pypi.org/project/foodlog/) [![pylint](https://github.com/vkostyanetsky/Foodlog/actions/workflows/pylint.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/pylint.yml) [![black](https://github.com/vkostyanetsky/Foodlog/actions/workflows/black.yml/badge.svg)](https://github.com/vkostyanetsky/Foodlog/actions/workflows/black.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This script calculates approximate number of calories, proteins, fats & carbohydrates which I consume during a day. 
 

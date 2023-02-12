@@ -7,7 +7,6 @@ from foodlog import calculator, reference_daily_intake
 
 
 def get(log_index: int, data: namedtuple) -> list:
-
     journal_date = list(data.journal.keys())[log_index]
     journal_entry = list(data.journal.values())[log_index]
 
@@ -81,7 +80,6 @@ def __get_food_offset(catalog: dict, data_offset: int) -> int:
     result = 0
 
     for catalog_item in catalog:
-
         length = len(catalog_item)
 
         if length > result:
@@ -91,7 +89,6 @@ def __get_food_offset(catalog: dict, data_offset: int) -> int:
 
 
 def __add_table_row(lines: list, columns: dict, food_offset: int, data_offset: int):
-
     food = columns["food"].ljust(food_offset)
     calories = str(columns["calories"]).ljust(data_offset)
     protein = str(columns["protein"]).ljust(data_offset)
@@ -116,7 +113,6 @@ def __percent(nutrients_total: int, value: int) -> str:
 def __print_nutrients_balance(
     result: list, data: namedtuple, total: dict, food_offset: int, data_offset: int
 ):
-
     nutrients_total = total["protein"] + total["fat"] + total["carbs"]
 
     protein_percent = __percent(nutrients_total, total["protein"])
@@ -178,7 +174,6 @@ def __print_weight_dynamic(lines: list, date: datetime.date, data: namedtuple):
     tomorrow_weight = data.weights.get(date + datetime.timedelta(days=1))
 
     if yesterday_weight or today_weight or tomorrow_weight:
-
         lines.append("Body weight dynamic:")
 
         if yesterday_weight:

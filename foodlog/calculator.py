@@ -10,7 +10,6 @@ def totals(journal: list, catalog: dict) -> dict:
     aggregates = __get_aggregates_of_journal_for_date(journal, catalog)
 
     for title, grams in aggregates.items():
-
         food = __get_food(foods, title)
 
         if food is None:
@@ -20,7 +19,6 @@ def totals(journal: list, catalog: dict) -> dict:
         attribute_values = catalog[title]
 
         for attribute in ("calories", "protein", "fat", "carbs", "grams"):
-
             if attribute == "grams":
                 value = grams
             else:
@@ -39,11 +37,9 @@ def totals(journal: list, catalog: dict) -> dict:
 
 
 def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
-
     result = {}
 
     for entry in journal:
-
         is_comment = isinstance(entry, str)
 
         if is_comment:
@@ -56,9 +52,7 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
         pattern = re.compile("^[ 0-9\\+\\-()/*]+$")
 
         if entry_title_from_catalog is not None:
-
             try:
-
                 entry_grams = str(tuple(entry.values())[0])
 
                 if pattern.search(entry_grams) is None:
@@ -67,7 +61,6 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
                 entry_grams = eval(entry_grams)
 
             except (SyntaxError, ZeroDivisionError):
-
                 # SyntaxError:          "1+2)+3"
                 # ZeroDivisionError:    "1/0"
 
@@ -80,7 +73,6 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
                 result[entry_title_from_catalog] += entry_grams
 
         else:
-
             print(f'Catalog\'s entry "{entry_title}" is not found.')
 
     return result
@@ -90,9 +82,7 @@ def __get_food_title_from_catalog(catalog: dict, food_title: str) -> dict:
     result = None
 
     for catalog_item in catalog:
-
         if catalog_item.lower() == food_title.lower():
-
             if isinstance(catalog[catalog_item], str):
                 result = __get_food_title_from_catalog(catalog, catalog[catalog_item])
             else:
@@ -123,7 +113,6 @@ def __get_total_template() -> dict:
 
 
 def nutrients_balance(total: dict) -> dict:
-
     nutrients_total = total["protein"] + total["fat"] + total["carbs"]
 
     return {

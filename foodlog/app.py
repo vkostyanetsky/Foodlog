@@ -56,12 +56,10 @@ def __get_yaml_file_data(file_name: str) -> dict:
     """
 
     try:
-
         with open(file_name, encoding="utf-8-sig") as yaml_file:
             yaml_file_data = yaml.safe_load(yaml_file)
 
     except FileNotFoundError:
-
         print(f"File is not found: {file_name}")
         sys.exit(1)
 

@@ -25,7 +25,6 @@ class LogsBrowser:
         self._index = self._max_index
 
     def open(self) -> None:
-
         self.show_log_by_index()
 
         keyboard.add_hotkey(self._prev_log_hotkey, self.show_previous_fast)
@@ -36,7 +35,6 @@ class LogsBrowser:
         keyboard.remove_all_hotkeys()
 
     def show_log_by_index(self):
-
         cliutils.clear_terminal()
 
         info = logs_viewer.get(self._index, self._data)

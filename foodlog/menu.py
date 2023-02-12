@@ -9,18 +9,15 @@ from foodlog import calculator, reference_daily_intake
 
 
 class FoodlogMenu(Menu):
-
     _data: namedtuple
     _summary_titles_width: int = 10
 
     def __init__(self, data: namedtuple):
-
         super().__init__()
 
         self._data = data
 
     def _print_menu(self):
-
         print(self._top_border())
 
         self._print_title()
@@ -32,13 +29,11 @@ class FoodlogMenu(Menu):
         print(self._bottom_border())
 
     def _print_title(self):
-
         print(self._text_line("FOOD LOG", 2))
 
         print(self._inner_border())
 
     def _print_choices(self):
-
         print(self._empty_line())
 
         for choice in self._get_choices_to_print():
@@ -47,7 +42,6 @@ class FoodlogMenu(Menu):
         print(self._empty_line())
 
     def _get_total_for_today(self):
-
         date_today = datetime.date.today()
         journal = (
             self._data.journal[date_today]
@@ -60,7 +54,6 @@ class FoodlogMenu(Menu):
         return totals["total"]
 
     def _get_calories_summary(self, totals_for_today: dict) -> str:
-
         calories_limit = reference_daily_intake.get_calories_limit(
             self._data.profile, self._data.weights
         )
@@ -76,7 +69,6 @@ class FoodlogMenu(Menu):
         return f"{calories_today} out of {calories_limit}{calories_suffix}"
 
     def _print_calories_summary(self, totals_for_today: dict) -> None:
-
         calories = title_and_value(
             title="Calories",
             value=self._get_calories_summary(totals_for_today),
@@ -99,7 +91,6 @@ class FoodlogMenu(Menu):
         print(self._text_line(text))
 
     def _print_nutrients_balance(self, totals_for_today: dict) -> None:
-
         balance = calculator.nutrients_balance(totals_for_today)
 
         self._print_nutrient_balance(balance, "protein_percent", "Protein")
@@ -107,7 +98,6 @@ class FoodlogMenu(Menu):
         self._print_nutrient_balance(balance, "carbs_percent", "Carbs")
 
     def _print_summary(self):
-
         total_for_today = self._get_total_for_today()
 
         print(self._empty_line())

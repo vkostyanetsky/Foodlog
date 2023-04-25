@@ -8,3 +8,6 @@ build/
 
 # PyCharm
 .idea/
+
+# Data
+.data/

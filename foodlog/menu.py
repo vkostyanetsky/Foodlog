@@ -53,7 +53,8 @@ class FoodlogMenu(Menu):
         date_today = datetime.date.today()
         journal = (
             self._data.journal[date_today]
-            if self._data.journal.get(date_today) is not None
+            if self._data.journal is not None
+            and self._data.journal.get(date_today) is not None
             else []
         )
 

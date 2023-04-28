@@ -1,5 +1,11 @@
 # Changelog
 
+## [UNRELEASED]
+
+### Added
+
+* Fixed an application crash if the journal is empty.
+
 ## 0.2.1 - 2023-02-12
 
 ### Added

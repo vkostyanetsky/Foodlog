@@ -21,7 +21,7 @@ setup(
     python_requires=">=3.7",
     packages=["foodlog"],
     install_requires=[
-        "PyYAML~=6.0",
+        "PyYAML~=6.0.1",
         "keyboard~=0.13.5",
         "vkostyanetsky.cliutils~=0.2.0",
     ],

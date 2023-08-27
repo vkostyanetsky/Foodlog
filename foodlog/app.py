@@ -4,67 +4,71 @@
 Router class for the application.
 """
 
+import io
+import os
 import sys
-from collections import namedtuple
 
-import yaml
+from foodlog import constants
+from foodlog.commands import command_show
 
-from foodlog.logs_browser import LogsBrowser
-from foodlog.menu import FoodlogMenu
+import click
 
 
-def main_menu() -> None:
+def __get_path(path: str | None) -> str:
     """
-    Displays main menu of the application.
-    """
-
-    data = __get_data()
-    menu = FoodlogMenu(data)
-
-    menu.add_item("Logs Browser", __logs_browser)
-    menu.add_item("Exit", sys.exit)
-
-    menu.choose()
-
-
-def __logs_browser() -> None:
-    """
-    Shows logs browser.
+    Determines the path to a working directory. It is supposed to be the "Foodlog" folder
+    in user's home directory in case it's not specified via app's options.
     """
 
-    data = __get_data()
+    if path is None:
+        path = os.path.expanduser("~")
+        path = os.path.join(path, "Foodlog")
 
-    LogsBrowser(data).open()
-
-    main_menu()
+    return path
 
 
-def __get_data() -> namedtuple:
+def __path_help() -> str:
+    return "Set path to working directory."
+
+
+def __path_type() -> click.Path:
+    return click.Path(exists=True)
+
+
+@click.group(help="CLI tool that helps to keep a food diary.", invoke_without_command=True)
+@click.pass_context
+@click.option("-p", "--path", type=__path_type(), help=__path_help())
+def cli(context: click.core.Context | None, path: str | None) -> None:
     """
-    Returns app data collection.
-    """
-
-    data = namedtuple("data", "profile catalog journal weights")
-
-    data.profile = __get_yaml_file_data("profile.yaml")
-    data.catalog = __get_yaml_file_data("catalog.yaml")
-    data.journal = __get_yaml_file_data("journal.yaml")
-    data.weights = __get_yaml_file_data("weights.yaml")
-
-    return data
-
-
-def __get_yaml_file_data(file_name: str) -> dict:
-    """
-    Returns YAML file content as a dictionary.
+    Main CLI entry point.
     """
 
-    try:
-        with open(file_name, encoding="utf-8-sig") as yaml_file:
-            yaml_file_data = yaml.safe_load(yaml_file)
+    if isinstance(sys.stdout, io.TextIOWrapper) and sys.version_info >= (3, 7):
+        sys.stdout.reconfigure(encoding=constants.ENCODING)
 
-    except FileNotFoundError:
-        print(f"File is not found: {file_name}")
-        sys.exit(1)
+    if context is None or not context.invoked_subcommand:
+        __show(path)
 
-    return yaml_file_data
+
+@cli.command(help="Show details of fasting.")
+@click.argument("what", default="last", type=click.Choice(["last", "prev", "on"]))
+@click.option("-p", "--path", type=__path_type(), help=__path_help())
+def show(path: str | None, what: str) -> None:
+    """
+    Outputs detailed information about a fast.
+    """
+
+    __show(path, what)
+
+
+def __show(path: str | None, what: str | None = "last") -> None:
+    """
+    Executes SHOW command (outputs detailed information about a fast).
+    """
+
+    path = __get_path(path)
+    command_show.main(path, what)
+
+
+if __name__ == "__main__":
+    cli(context=None, path=None)

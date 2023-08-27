@@ -5,14 +5,14 @@ The package description.
 """
 
 from setuptools import setup
-from foodlog.version import __version__
+from foodlog import constants
 
 with open("README.md", encoding="utf-8-sig") as readme_file:
     long_description = readme_file.read()
 
 setup(
     name="foodlog",
-    version=__version__,
+    version=constants.VERSION,
     description="A simple CLI timer to calculate fasting zones.",
     long_description=long_description,
     long_description_content_type="text/markdown",

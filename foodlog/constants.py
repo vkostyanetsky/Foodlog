@@ -4,4 +4,5 @@
 The app's version.
 """
 
-__version__ = "1.0.0"
+VERSION = "1.0.0"
+ENCODING="utf-8"

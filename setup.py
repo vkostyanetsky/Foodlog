@@ -22,10 +22,8 @@ setup(
     packages=["foodlog"],
     install_requires=[
         "PyYAML~=6.0.1",
-        "keyboard~=0.13.5",
-        "vkostyanetsky.cliutils~=0.2.0",
     ],
-    entry_points={"console_scripts": ["foodlog=foodlog.app:main_menu"]},
+    entry_points={"console_scripts": ["foodlog=foodlog.app:cli"]},
     author="Vlad Kostyanetsky",
     author_email="vlad@kostyanetsky.me",
     classifiers=[

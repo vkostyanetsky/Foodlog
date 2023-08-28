@@ -8,10 +8,10 @@ import io
 import os
 import sys
 
+import click
+
 from foodlog import constants
 from foodlog.commands import command_show
-
-import click
 
 
 def __get_path(path: str | None) -> str:
@@ -35,7 +35,9 @@ def __path_type() -> click.Path:
     return click.Path(exists=True)
 
 
-@click.group(help="CLI tool that helps to keep a food diary.", invoke_without_command=True)
+@click.group(
+    help="CLI tool that helps to keep a food diary.", invoke_without_command=True
+)
 @click.pass_context
 @click.option("-p", "--path", type=__path_type(), help=__path_help())
 def cli(context: click.core.Context | None, path: str | None) -> None:

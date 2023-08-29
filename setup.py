@@ -21,8 +21,8 @@ setup(
     python_requires=">=3.7",
     packages=["foodlog"],
     install_requires=[
-        "PyYAML~=6.0.1",
-        "click~=8.1.7",
+        "PyYAML==6.0.1",
+        "click==8.1.7",
     ],
     entry_points={"console_scripts": ["foodlog=foodlog.app:cli"]},
     author="Vlad Kostyanetsky",

@@ -5,6 +5,7 @@ Totals calculating functionality.
 """
 
 import re
+import click
 
 
 def totals(journal: list, catalog: dict) -> dict:
@@ -47,41 +48,42 @@ def totals(journal: list, catalog: dict) -> dict:
 def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
     result = {}
 
-    for entry in journal:
-        is_comment = isinstance(entry, str)
+    if journal:
+        for entry in journal:
+            is_comment = isinstance(entry, str)
 
-        if is_comment:
-            continue
+            if is_comment:
+                continue
 
-        entry_title = tuple(entry)[0]
+            entry_title = tuple(entry)[0]
 
-        entry_title_from_catalog = __get_food_title_from_catalog(catalog, entry_title)
+            entry_title_from_catalog = __get_food_title_from_catalog(catalog, entry_title)
 
-        pattern = re.compile("^[ 0-9\\+\\-()/*]+$")
+            pattern = re.compile("^[ 0-9\\+\\-()/*]+$")
 
-        if entry_title_from_catalog is not None:
-            try:
-                entry_grams = str(tuple(entry.values())[0])
+            if entry_title_from_catalog is not None:
+                try:
+                    entry_grams = str(tuple(entry.values())[0])
 
-                if pattern.search(entry_grams) is None:
-                    raise ValueError
+                    if pattern.search(entry_grams) is None:
+                        raise ValueError
 
-                entry_grams = eval(entry_grams)  # pylint: disable=eval-used
+                    entry_grams = eval(entry_grams)  # pylint: disable=eval-used
 
-            except (SyntaxError, ZeroDivisionError):
-                # SyntaxError:          "1+2)+3"
-                # ZeroDivisionError:    "1/0"
+                except (SyntaxError, ZeroDivisionError):
+                    # SyntaxError:          "1+2)+3"
+                    # ZeroDivisionError:    "1/0"
 
-                print(f'Unable to get weight for the journal\'s entry "{entry_title}".')
-                entry_grams = 0
+                    click.echo(click.style(text=f'Unable to get weight for the entry "{entry_title}" in the journal.', fg="red"))
+                    entry_grams = 0
 
-            if result.get(entry_title_from_catalog) is None:
-                result[entry_title_from_catalog] = entry_grams
+                if result.get(entry_title_from_catalog) is None:
+                    result[entry_title_from_catalog] = entry_grams
+                else:
+                    result[entry_title_from_catalog] += entry_grams
+
             else:
-                result[entry_title_from_catalog] += entry_grams
-
-        else:
-            print(f'Catalog\'s entry "{entry_title}" is not found.')
+                click.style(text=f'Entry "{entry_title}" is not found in the catalog.', fg="red")
 
     return result
 

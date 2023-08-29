@@ -8,9 +8,10 @@ import datetime
 from collections import namedtuple
 
 from foodlog import calculator, reference_daily_intake
+import click
 
 
-def get(log_index: int, data: namedtuple) -> list:
+def view(log_index: int, data: namedtuple) -> None:
     """
     Returns information from a journal log by an index given.
     """
@@ -18,13 +19,15 @@ def get(log_index: int, data: namedtuple) -> list:
     journal_date = list(data.journal.keys())[log_index]
     journal_entry = list(data.journal.values())[log_index]
 
-    lines = [journal_date]
+    click.echo(click.style(text=journal_date, bold=True))
     totals = calculator.totals(journal_entry, data.catalog)
 
     data_offset = 15
     food_offset = __get_food_offset(data.catalog, data_offset)
 
-    lines.append("")
+    click.echo()
+
+    lines = []
 
     __add_table_row(
         lines,
@@ -81,7 +84,8 @@ def get(log_index: int, data: namedtuple) -> list:
     lines.append("")
     __print_weight_dynamic(lines, journal_date, data)
 
-    return lines
+    for line in lines:
+        click.echo(line)
 
 
 def __get_food_offset(catalog: dict, data_offset: int) -> int:

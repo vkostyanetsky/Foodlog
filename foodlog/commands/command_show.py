@@ -26,18 +26,12 @@ def main(path: str, what: str) -> None:
 
 
 def __show_last(data) -> None:
-    info = logs_viewer.get(-1, data)
-
-    for line in info:
-        print(line)
+    logs_viewer.view(-1, data)
 
 
 def __show_prev(data) -> None:
     if len(data) >= 2:
-        info = logs_viewer.get(-2, data)
-
-        for line in info:
-            print(line)
+        logs_viewer.view(-2, data)
 
     else:
         click.echo("Nothing to show, since there is no previous day with logs.")

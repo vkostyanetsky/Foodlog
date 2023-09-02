@@ -74,7 +74,7 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
                     # SyntaxError:          "1+2)+3"
                     # ZeroDivisionError:    "1/0"
 
-                    echo.error(f'Unable to get weight for the entry "{entry_title}" in the journal.')
+                    echo.error(f'(!) Unable to get weight for the entry "{entry_title}" in the journal.')
                     entry_grams = 0
 
                 if result.get(entry_title_from_catalog) is None:
@@ -83,7 +83,7 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
                     result[entry_title_from_catalog] += entry_grams
 
             else:
-                echo.error(f'Entry "{entry_title}" is not found in the catalog.')
+                echo.error(f'(!) Entry "{entry_title}" is not found in the catalog.')
 
     return result
 

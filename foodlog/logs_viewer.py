@@ -7,8 +7,7 @@ Journal reading functionality.
 import datetime
 from collections import namedtuple
 
-from foodlog import calculator, reference_daily_intake
-import click
+from foodlog import calculator, reference_daily_intake, echo
 
 
 def view(log_index: int, data: namedtuple) -> None:
@@ -19,13 +18,14 @@ def view(log_index: int, data: namedtuple) -> None:
     journal_date = list(data.journal.keys())[log_index]
     journal_entry = list(data.journal.values())[log_index]
 
-    click.echo(click.style(text=journal_date, bold=True))
+    echo.title(journal_date)
+
     totals = calculator.totals(journal_entry, data.catalog)
 
     data_offset = 15
     food_offset = __get_food_offset(data.catalog, data_offset)
 
-    click.echo()
+    echo.line()
 
     lines = []
 
@@ -85,7 +85,7 @@ def view(log_index: int, data: namedtuple) -> None:
     __print_weight_dynamic(lines, journal_date, data)
 
     for line in lines:
-        click.echo(line)
+        echo.line(line)
 
 
 def __get_food_offset(catalog: dict, data_offset: int) -> int:

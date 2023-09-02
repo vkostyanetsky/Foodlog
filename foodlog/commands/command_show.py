@@ -2,10 +2,9 @@ import os
 import sys
 from collections import namedtuple
 
-import click
 import yaml
 
-from foodlog import logs_viewer
+from foodlog import logs_viewer, echo
 
 
 def main(path: str, what: str) -> None:
@@ -22,7 +21,7 @@ def main(path: str, what: str) -> None:
             __show_prev(data)
 
     else:
-        click.echo("Nothing to show, since there are no logs.")
+        echo.line("Nothing to show, since there are no logs.")
 
 
 def __show_last(data) -> None:
@@ -34,7 +33,7 @@ def __show_prev(data) -> None:
         logs_viewer.view(-2, data)
 
     else:
-        click.echo("Nothing to show, since there is no previous day with logs.")
+        echo.line("Nothing to show, since there is no previous day with logs.")
 
 
 def __get_data(path: str) -> namedtuple:

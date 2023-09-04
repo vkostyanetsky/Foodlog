@@ -5,6 +5,7 @@ Totals calculating functionality.
 """
 
 import re
+
 from foodlog import echo
 
 
@@ -57,7 +58,9 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
 
             entry_title = tuple(entry)[0]
 
-            entry_title_from_catalog = __get_food_title_from_catalog(catalog, entry_title)
+            entry_title_from_catalog = __get_food_title_from_catalog(
+                catalog, entry_title
+            )
 
             pattern = re.compile("^[ 0-9\\+\\-()/*]+$")
 
@@ -74,7 +77,9 @@ def __get_aggregates_of_journal_for_date(journal: list, catalog: dict) -> dict:
                     # SyntaxError:          "1+2)+3"
                     # ZeroDivisionError:    "1/0"
 
-                    echo.error(f'(!) Unable to get weight for the entry "{entry_title}" in the journal.')
+                    echo.error(
+                        f'(!) Unable to get weight for the entry "{entry_title}" in the journal.'
+                    )
                     entry_grams = 0
 
                 if result.get(entry_title_from_catalog) is None:

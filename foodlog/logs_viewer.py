@@ -7,7 +7,7 @@ Journal reading functionality.
 import datetime
 from collections import namedtuple
 
-from foodlog import calculator, reference_daily_intake, echo
+from foodlog import calculator, echo, reference_daily_intake
 
 
 def view(log_index: int, data: namedtuple) -> None:

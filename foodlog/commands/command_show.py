@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import yaml
 
-from foodlog import logs_viewer, echo
+from foodlog import echo, logs_viewer
 
 
 def main(path: str, what: str) -> None:

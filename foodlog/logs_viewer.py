@@ -152,7 +152,7 @@ def __print_nutrients_balance(
     __add_table_row(
         result,
         {
-            "food": "Target ranges",
+            "food": "Target values",
             "calories": "",
             "protein": default_protein_percent,
             "fat": default_fat_percent,
